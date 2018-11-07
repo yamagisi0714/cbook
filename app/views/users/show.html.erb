@@ -1,0 +1,27 @@
+<div class="container">
+	<h2>User info</h2>
+	<div class="user-img row">
+		<!-- <%= attachment_image_tag @user, :user_image, fallback: "no_image.jpg" %>-->
+	</div>
+	<div class="follow">
+		<%= render 'follow_form' %>
+		<%= render 'stats' %>
+	</div>
+	<table class="table">
+		<thead>
+			<tr></tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th>name</th>
+				<th><%= @user.name %></th>
+			</tr>
+		</tbody>
+	</table>
+	<div class="row">
+		<% if @user == current_user %>
+		<%= link_to"", edit_user_path(current_user), class: 'col-xs-12 btn btn-default glyphicon glyphicon-wrench edit_user_#{current_user.id}'%>
+		<% else %>
+		<%= link_to"", user_path(current_user), class: 'col-xs-12 btn btn-default glyphicon glyphicon-wrench user_#{current_user}' %>
+		<% end %>
+	</div>

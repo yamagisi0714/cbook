@@ -1,0 +1,28 @@
+<div class="stats">
+  <% @user ||= current_user %>
+  <p></p>
+  <table>
+    <thead>
+      <th></th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="btn">
+          <a href="<%= following_user_path(@user) %>">
+            <div id="following" class="stat">
+              <p><strong>  <%= @user.followings.count %>  フォロー中</strong></p>
+            </div>
+          </a>
+        </td>
+        <td class="btn">
+          <a href="<%= followers_user_path(@user) %>">
+            <div id="followers" class="stat">
+              <p><strong><%= @user.followers.count %>  フォロワー</strong></p>
+            </div>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,13 +1,11 @@
 Rails.application.routes.draw do
-	root to:'top#top'
-	devise_for :users, controllers: {
-	sessions:      'users/sessions',
-	passwords:     'users/passwords',
-	registrations: 'users/registrations'
-}
-	resources :users, only:[:index, :show, :edit, :update, :destroy] do
-		member do
-     		get :following, :followers
+	root to:'root#top'
+
+	devise_for :users
+
+	resources :users do
+	    member do
+	     get :following, :followers
 	    end
   	end
   	resources :relationships, only: [:create, :destroy]
