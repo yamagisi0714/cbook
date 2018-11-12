@@ -1,2 +1,22 @@
-<h1>Groups#show</h1>
-<p>Find me in app/views/groups/show.html.erb</p>
+<div class="container">
+	<div class="row">
+		<h2>グループ詳細</h2>
+		<div class="group_img">
+			<%= attachment_image_tag @group, :group_image, fallback: "no_image.jpg" %>
+		</div>
+		<table class="table">
+			<thead>
+				<tr></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>グループ名</th>
+					<th><%= @group.group_name %></th>
+				</tr>
+			</tbody>
+		</table>
+		<div class="row">
+			<%= link_to"", edit_group_path(@group), class: 'col-xs-12 btn btn-default glyphicon glyphicon-wrench'%>
+		</div>
+	</div>
+</div>

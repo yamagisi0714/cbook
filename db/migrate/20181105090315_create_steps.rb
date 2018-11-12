@@ -4,6 +4,8 @@ class CreateSteps < ActiveRecord::Migration[5.2]
       t.integer :procedure_num
       t.string :procedure
       t.string :details
+      t.string :recipe_id
+      t.string :step_image_id
 
       t.timestamps
     end

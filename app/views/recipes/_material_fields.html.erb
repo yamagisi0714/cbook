@@ -1,0 +1,9 @@
+<div class="nested-fields well well-compact">
+  <div class="form-group">
+    <%= f.label :材料名 %>
+    <%= f.text_field :material_name, placeholder:"食材名" %>
+    <%= f.text_field :quantity, placeholder:"数量" %>
+    <%= f.collection_select :unit, Unit.all, :id, :unit_name, include_blank: true %>
+    <%= link_to_remove_association "材料を削除", f %>
+  </div>
+</div>

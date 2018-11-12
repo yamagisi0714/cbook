@@ -5,3 +5,6 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+Category.create([{:category_name => '和食'},{:category_name => '洋食'},{:category_name => '中華'},{:category_name => '主食'},{:category_name => '主菜'},{:category_name => '副菜'},{:category_name => '汁物'},{:category_name => 'ソース'},{:category_name => 'ドレッシング'},{:category_name => 'パスタ'},{:category_name => 'サラダ'},{:category_name => 'パン'},{:category_name => '麺類'},{:category_name => '丼'},{:category_name => 'おつまみ'},{:category_name => 'お菓子'}])
+Unit.create([{:unit_name => '大さじ'},{:unit_name => '小さじ'},{:unit_name => 'カップ'},{:unit_name => 'g'},{:unit_name => 'ml'},{:unit_name => 'L'},{:unit_name => '個'},{:unit_name => '枚'},{:unit_name => '本'},{:unit_name => '少々'},{:unit_name => '1/2'},{:unit_name => '1/4'}])

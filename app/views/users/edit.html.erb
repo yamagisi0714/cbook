@@ -1,2 +1,22 @@
-<h1>Users#edit</h1>
-<p>Find me in app/views/users/edit.html.erb</p>
+<div class="container">
+	<h2>User info</h2>
+	<%= form_for(@user) do |f| %>
+	<% if @user.errors.any? %>
+	    <div id="error_explanation">
+	      <h2><%= @user.errors.count %>件のエラーが発生しました。</h2>
+	      <ul>
+	      <% @user.errors.full_messages.each do |message| %>
+	        <li><%= message %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+	<p><strong>name</strong>
+		<%= f.text_field :name, class: "name" %>
+	</p>
+	<p><strong>Image</strong>
+		<%= f.attachment_field :user_image, placeholder: "プロフィール画像" %>
+	</p>
+	<%= f.submit " Update User " %>
+	<% end %>
+</div>

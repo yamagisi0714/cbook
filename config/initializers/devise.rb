@@ -287,4 +287,6 @@ Devise.setup do |config|
   # ActiveSupport.on_load(:devise_failure_app) do
   #   include Turbolinks::Controller
   # end
+  Refile.secret_key = '3cf511706ed752d9134fdece36e6e73d477b52a29ea6a2e63d229aa98e405e325a5bc9db3787c55d3c16ec6855b8fb35d10b4f430c3d0c3c7a349731da3f22dc'
+
 end

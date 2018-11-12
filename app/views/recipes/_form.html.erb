@@ -1,0 +1,33 @@
+<%= form_for @recipe do |f| %>
+  <div class="field">
+    <%= f.label :title, "タイトル" %><br>
+    <%= f.text_field :title %>
+    <%= f.collection_select :category, Category.all, :id, :category_name, include_blank: true %>
+  </div>
+  <div class="field">
+    <%= f.label :cook_image, "完成品画像" %>
+    <%= f.attachment_field :cook_image, placeholder: "料理完成画像" %>
+  </div>
+  <h3>材料</h3>
+  <div id="materials">
+    <%= f.fields_for :materials do |material| %>
+      <%= render 'material_fields', f: material %>
+    <% end %>
+    <div id="links">
+      <%= link_to_add_association '材料を追加',f, :materials %>
+    </div>
+  </div>
+  <h3>手順</h3>
+  <div id="step">
+    <%= f.fields_for :steps do |step| %>
+      <%= render 'step_fields', f: step %>
+    <% end %>
+    <div id="links">
+      <%= link_to_add_association '手順を追加',f, :steps %>
+    </div>
+    <br>
+    <%= f.submit '登録' %>
+  </div>
+<% end %>
+
+<%= @count %>

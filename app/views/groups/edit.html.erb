@@ -1,2 +1,29 @@
-<h1>Groups#edit</h1>
-<p>Find me in app/views/groups/edit.html.erb</p>
+<div class="container">
+	<div class="row">
+		<h2>グループ編集</h2>
+		<%= form_for(@group) do |f| %>
+		<% if @group.errors.any? %>
+		    <div id="error_explanation">
+		      <h2><%= @group.errors.count %>件のエラーが発生しました。</h2>
+		      <ul>
+		      <% @group.errors.full_messages.each do |message| %>
+		        <li><%= message %></li>
+		      <% end %>
+		      </ul>
+		    </div>
+		  <% end %>
+		<p>
+			<strong>グループ名</strong>
+		</p>
+			<%= f.text_field :group_name %>
+		<p></p>
+		<p><strong>現在設定されている画像</strong></p>
+		<div class="group_img">
+			<%= attachment_image_tag @group, :group_image, fallback: "no_image.jpg" %>
+		</div>
+		<%= f.attachment_field :group_image, placeholder: "グループ画像" %>
+		<br>
+		<%= f.submit " 更新 " %>
+		<% end %>
+	</div>
+</div>

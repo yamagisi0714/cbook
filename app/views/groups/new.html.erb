@@ -1,2 +1,28 @@
-<h1>Groups#new</h1>
-<p>Find me in app/views/groups/new.html.erb</p>
+<div class="container">
+	<%= form_for(@new_group) do |g| %>
+	<div class="error">
+		<% if @new_group.errors.any? %>
+	      <div id="error_explanation">
+	       <h3><%= @new_group.errors.count %>件のエラーが発生しました。</h3>
+	        <ul>
+	         <% @new_group.errors.full_messages.each do |message| %>
+	          <li><%= message %></li>
+	         <% end %>
+	        </ul>
+	      </div>
+	     <% end %>
+	 </div>
+	 <div class="field">
+	  <%= g.label :グループの名前 %><br />
+	  <%= g.text_field :group_name, placeholder:"グループの名前"%>
+	</div>
+	<div class="field">
+	  <%= g.label :グループの画像 %><br />
+	  <%= g.attachment_field :group_image, placeholder:"グループの名前"%>
+	</div>
+	<div class="actions">
+	  <p></p>
+	  <%= g.submit "新規作成" %>
+	</div>
+	<% end %>
+</div>

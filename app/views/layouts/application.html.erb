@@ -21,12 +21,21 @@
           <nav class="header_nav nav-list">
             <ul class="nav navbar-nav navbar-right" style="color: black;">
               <% if user_signed_in? %>
-                <li>
-                  <%=link_to "マイページ",user_path(current_user) %>
-                </li>
-                <li>
-                  <%=link_to "ログアウト",destroy_user_session_path, method: :delete %>
-                </li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                  <%= attachment_image_tag current_user, :user_image, fallback: "no_image.jpg" %><%= current_user.name %><span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li role="presentation">
+                    <%=link_to "マイページ",user_path(current_user) %>
+                  </li>
+                  <li role="presentation">
+                    <%= link_to "設定", edit_user_path(current_user) %>
+                  </li>
+                  <li role="presentation">
+                    <%=link_to "ログアウト",destroy_user_session_path, method: :delete %>
+                  </li>
+                </ul>
+              </li>
               <% else %>
                 <li>
                   <%= link_to"新規登録", new_user_registration_path %>
@@ -39,8 +48,6 @@
           </nav>
         </div>
       </div>
-    </header>
-      
     </header>
     <main>
       <%= yield %>

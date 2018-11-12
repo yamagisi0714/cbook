@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_05_091820) do
+ActiveRecord::Schema.define(version: 2018_11_07_090901) do
 
   create_table "categories", force: :cascade do |t|
     t.string "category_name"
@@ -18,10 +18,17 @@ ActiveRecord::Schema.define(version: 2018_11_05_091820) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "favorites", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "groups", force: :cascade do |t|
     t.string "group_name"
     t.string "group_image_id"
-    t.integer "user_id"
+    t.boolean "lock", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -35,7 +42,7 @@ ActiveRecord::Schema.define(version: 2018_11_05_091820) do
 
   create_table "materials", force: :cascade do |t|
     t.string "material_name"
-    t.integer "quantity"
+    t.string "quantity"
     t.integer "recipe_id"
     t.integer "unit_id"
     t.datetime "created_at", null: false
@@ -52,20 +59,12 @@ ActiveRecord::Schema.define(version: 2018_11_05_091820) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "relationships", force: :cascade do |t|
-    t.integer "follower_id"
-    t.integer "following_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["follower_id", "following_id"], name: "index_relationships_on_follower_id_and_following_id", unique: true
-    t.index ["follower_id"], name: "index_relationships_on_follower_id"
-    t.index ["following_id"], name: "index_relationships_on_following_id"
-  end
-
   create_table "steps", force: :cascade do |t|
     t.integer "procedure_num"
     t.string "procedure"
     t.string "details"
+    t.string "recipe_id"
+    t.string "step_image_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -79,6 +78,8 @@ ActiveRecord::Schema.define(version: 2018_11_05_091820) do
   create_table "user_groups", force: :cascade do |t|
     t.integer "user_id"
     t.integer "group_id"
+    t.boolean "entry", default: false, null: false
+    t.boolean "owner", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
