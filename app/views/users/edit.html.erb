@@ -1,22 +1,26 @@
 <div class="container">
-	<h2>User info</h2>
+	<div class="row">
 	<%= form_for(@user) do |f| %>
-	<% if @user.errors.any? %>
-	    <div id="error_explanation">
-	      <h2><%= @user.errors.count %>件のエラーが発生しました。</h2>
-	      <ul>
-	      <% @user.errors.full_messages.each do |message| %>
-	        <li><%= message %></li>
-	      <% end %>
-	      </ul>
-	    </div>
-	  <% end %>
-	<p><strong>name</strong>
-		<%= f.text_field :name, class: "name" %>
-	</p>
-	<p><strong>Image</strong>
-		<%= f.attachment_field :user_image, placeholder: "プロフィール画像" %>
-	</p>
-	<%= f.submit " Update User " %>
+		<% if @user.errors.any? %>
+		    <div id="error_explanation">
+		      	<h2><%= @user.errors.count %>件のエラーが発生しました。</h2>
+		      	<ul>
+			      	<% @user.errors.full_messages.each do |message| %>
+			        <li><%= message %></li>
+			      <% end %>
+		  		</ul>
+	    	</div>
+    	<% end %>
 	<% end %>
+	<h3>User情報の編集</h3>
+	<div class="edit_form">
+		<%= form_for(@user) do |f| %>
+			<%= f.label :ニックネーム %><br>
+			<%= f.text_field :name %><br>
+			<%= f.label :メールアドレス %><br>
+			<%= f.email_field :email %><br>
+			<p></p>
+			<%= f.submit "更新" %>
+		<% end %>
+	</div>
 </div>

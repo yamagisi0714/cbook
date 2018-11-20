@@ -1,2 +1,76 @@
-<h1>Resipes#show</h1>
-<p>Find me in app/views/resipes/show.html.erb</p>
+<div class="container">
+	<div class="row">
+		<div class="info row">
+			<div class="create col-xs-10">
+				最終更新日：<%= @recipe.updated_at.strftime('%Y年%m月%d日') %>
+			</div>
+			<div class="count col-xs-2">
+				<%= @recipe.views %> 回閲覧
+			</div><br>
+			<div class="none col-xs-10">
+			</div>
+			<div class="keep col-xs-2">
+				<% if @recipe.kept_by?(current_user) %>
+				  <div>
+				    <%= link_to recipe_keeps_path(@recipe), method: :delete, class: "glyphicon btn btn-default" do %>
+				    ストック済み
+				    <% end %>
+				  </div>
+				<% else %>
+				  <div>
+				    <%= link_to recipe_keeps_path(@recipe), method: :post, class: "glyphicon btn btn-info"  do %>
+				    ストックに追加
+				    <% end %>
+				  </div>
+				<% end %>
+			</div><br>
+		</div><br>
+		<div class="image col-xs-6">
+			<%= attachment_image_tag @recipe, :cook_image, fallback:"no_image.jpg" %>
+		</div>
+		<div class="material col-xs-6">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>材料</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @recipe.materials.each do |r| %>
+					<tr>
+						<td>
+							<%= r.material_name %>・・・・・<%= r.quantity %>
+						</td>
+					</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+		<div class="step row">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>手順</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @recipe.steps.each do |r| %>
+					<tr>
+						<div class="procesure col-xs-8">
+							<td>
+								<ul><%= r.procedure_num %></ul>
+								<ul><%= r.procedure %></ul>
+							</td>
+						</div>
+						<div class="procesure_image col-xs-4">
+							<td>
+								<%= attachment_image_tag r, :step_image, fallback: "no_image.jpg" %>
+							</td>
+						</div>
+					</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

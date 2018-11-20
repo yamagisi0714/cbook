@@ -2,7 +2,7 @@ class CreateRecipes < ActiveRecord::Migration[5.2]
   def change
     create_table :recipes do |t|
       t.string :title
-      t.integer :views_count
+      t.integer :views, default: 1
       t.string :cook_image_id
       t.integer :category_id
       t.integer :user_id

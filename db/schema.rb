@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2018_11_07_090901) do
     t.string "group_name"
     t.string "group_image_id"
     t.boolean "lock", default: false, null: false
+    t.boolean "restrict", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -51,6 +52,7 @@ ActiveRecord::Schema.define(version: 2018_11_07_090901) do
 
   create_table "recipes", force: :cascade do |t|
     t.string "title"
+    t.integer "views", default: 1
     t.string "cook_image_id"
     t.integer "category_id"
     t.integer "user_id"
@@ -69,17 +71,12 @@ ActiveRecord::Schema.define(version: 2018_11_07_090901) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "units", force: :cascade do |t|
-    t.string "unit_name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "user_groups", force: :cascade do |t|
     t.integer "user_id"
     t.integer "group_id"
     t.boolean "entry", default: false, null: false
     t.boolean "owner", default: false, null: false
+    t.boolean "creater", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

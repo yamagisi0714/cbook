@@ -1,11 +1,7 @@
 <div class="container">
-  <nav class="nav-list">
-    <% if user_signed_in? %>
-    <ul class="nav navbar-nav">
-      <%= link_to "グループ作成", new_group_path %>
-      <%= link_to "グループ一覧", groups_path %>
-      <%=link_to "レシピ新規追加", new_recipe_path %>
-    </ul>
-    <% end %>
-  </nav>
+	<div class="row">
+		<div class="sidebar">
+			<%= render 'root/sidebar' %>
+		</div>
+	</div>
 </div>

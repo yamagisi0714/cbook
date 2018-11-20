@@ -23,6 +23,9 @@ class UsersController < ApplicationController
       render :action => "edit"
     end
   end
+  def history
+    @user = User.find(current_user.id)
+  end
 
   private
     def user_params

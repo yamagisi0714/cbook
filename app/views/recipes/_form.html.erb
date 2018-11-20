@@ -2,11 +2,11 @@
   <div class="field">
     <%= f.label :title, "タイトル" %><br>
     <%= f.text_field :title %>
-    <%= f.collection_select :category, Category.all, :id, :category_name, include_blank: true %>
+    <%= f.collection_select :category_id, Category.all, :id, :category_name, include_blank: true %>
   </div>
   <div class="field">
     <%= f.label :cook_image, "完成品画像" %>
-    <%= f.attachment_field :cook_image, placeholder: "料理完成画像" %>
+    <%= f.attachment_field :cook_image, placeholder: "料理完成画像", class: "attachment_form" %>
   </div>
   <h3>材料</h3>
   <div id="materials">
@@ -24,10 +24,12 @@
     <% end %>
     <div id="links">
       <%= link_to_add_association '手順を追加',f, :steps %>
+    </div><br>
+    <div id="group">
+      <%= f.label :cook_image, "投稿するグループを指定" %>
+      <%= f.collection_select :group_id, @ingroup, :id, :group_name, include_blank: true %>
     </div>
     <br>
     <%= f.submit '登録' %>
   </div>
 <% end %>
-
-<%= @count %>

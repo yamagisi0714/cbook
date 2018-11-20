@@ -1,0 +1,12 @@
+<% if user_signed_in? %>
+<div class="sidebar">
+	<nav class="nav-list col-xs-2">
+		<ul><%=link_to "レシピ新規追加", new_recipe_path %></ul>
+		<ul><%= link_to "グループ作成", new_group_path %></ul>
+		<ul><%= link_to "登録グループ", groups_path %></ul>
+		<!-- 最終的にはリンクではなくeach文でユーザーが一覧登録しているグループを表示させる -->
+		<ul><%=link_to "投稿履歴", user_history_path(current_user.id) %></ul>
+	</nav>
+</div>
+<% else %>
+<% end %>

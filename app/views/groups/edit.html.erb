@@ -1,29 +1,85 @@
 <div class="container">
 	<div class="row">
-		<h2>グループ編集</h2>
 		<%= form_for(@group) do |f| %>
-		<% if @group.errors.any? %>
-		    <div id="error_explanation">
-		      <h2><%= @group.errors.count %>件のエラーが発生しました。</h2>
-		      <ul>
-		      <% @group.errors.full_messages.each do |message| %>
-		        <li><%= message %></li>
-		      <% end %>
-		      </ul>
-		    </div>
-		  <% end %>
-		<p>
-			<strong>グループ名</strong>
-		</p>
-			<%= f.text_field :group_name %>
-		<p></p>
-		<p><strong>現在設定されている画像</strong></p>
-		<div class="group_img">
-			<%= attachment_image_tag @group, :group_image, fallback: "no_image.jpg" %>
+			<% if @group.errors.any? %>
+			    <div id="error_explanation">
+			      <h2><%= @group.errors.count %>件のエラーが発生しました。</h2>
+			      <ul>
+			      <% @group.errors.full_messages.each do |message| %>
+			        <li><%= message %></li>
+			      <% end %>
+			      </ul>
+			    </div>
+			<% end %>
+		<div class="edit_form row thumbnail">
+			<div class="group_set row">
+				<br>
+				<br>
+				<div class="name_edit">
+					<%= f.label :グループ名 %><br>
+					<%= f.text_field :group_name %>
+				</div><br>
+				<div class="select">
+				  <%= f.label :参加制限 %><br>
+				  <%= f.select(:lock, [['全ての人が参加できる', false], ['招待した人のみ参加ができる', true]]) %>
+				</div><br>
+				<div class="select">
+				  <%= f.label :閲覧制限 %><br>
+				  <%= f.select(:restrict, [['全ての人が閲覧ができる', false], ['メンバーのみ閲覧ができる', true]]) %>
+				</div><br>
+			</div>
+			<br>
+			<br>
+			<div class="image_edit">
+				<%= f.label :グループ画像を選択してください %>
+				<br>
+				<br>
+				<%= f.attachment_field :group_image, placeholder: "グループ画像", class: "attachment_form" %>
+				<p>(画像を選択しなかった場合既存のものが表示されます。)</p>
+			</div>
+			<br>
+			<div class="submit">
+				<%= f.submit " 更新 " %>
+			</div>
+			<% end %>
 		</div>
-		<%= f.attachment_field :group_image, placeholder: "グループ画像" %>
-		<br>
-		<%= f.submit " 更新 " %>
-		<% end %>
+		<div class="search">
+			<%= form_tag group_search_users_path(@group), :method => 'get' do %>
+				<%= text_field_tag :search %>
+			<%= submit_tag "検索", :mail => nil %>
+			<% end %>
+		</div>
+		<div class="member row">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>メンバー</th>
+						<th></th>
+						<th>
+							<div class="invite_form">
+							
+							</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @group.user_groups.each do |g| %>
+					<tr>
+						<th>
+							<%= g.user.name %>
+						</th>
+						<th>
+							<%if g.owner == true %>
+							オーナー
+							<% end %>
+						</th>
+						<th>
+							<%= link_to "グループ退会", group_members_path(g), method: :delete, "data-confirm" => "本当に退会させますか？" %>
+						</th>
+					</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>

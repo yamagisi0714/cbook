@@ -1,0 +1,27 @@
+<div class="container">
+	<div class="row">
+		<div class="none col-xs-3">
+		</div>
+		<div class="search_users col-xs-6">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>ユーザー名</th>
+						<th>メールアドレス</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @user_search.each do |s| %>
+					<tr>
+						<th><%= s.name %></th>
+						<th><%= s.email %></th>
+						<th>
+							<%= link_to "招待",  {:action=>"invite", :controller=>"groups", :group_id=>@group.id, :search_user_id=>s.id}, method: :post %>
+							</th>
+					</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -20,6 +20,7 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	text-align: center;
 }
 
 
@@ -27,6 +28,12 @@
 	content:"";
 	display:block;
 	clear: both;
+}
+ul {
+  list-style: none;
+}
+.attachment_form {
+	margin: 0 auto;
 }
 .user_image {
 	width: 50px;
@@ -36,4 +43,13 @@
 .group_image {
 	width: 100px;
 	height: 100px;
+}
+.user_image {
+	width: 100%;
+}
+.cook_image {
+	width: 100%;
+}
+.group_image {
+	width: 100%;
 }

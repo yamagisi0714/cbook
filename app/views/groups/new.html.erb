@@ -13,13 +13,21 @@
 	     <% end %>
 	 </div>
 	 <div class="field">
-	  <%= g.label :グループの名前 %><br />
+	  <%= g.label :グループの名前 %><br>
 	  <%= g.text_field :group_name, placeholder:"グループの名前"%>
-	</div>
+	</div><br>
 	<div class="field">
-	  <%= g.label :グループの画像 %><br />
-	  <%= g.attachment_field :group_image, placeholder:"グループの名前"%>
-	</div>
+	  <%= g.label :グループの画像 %><br>
+	  <%= g.attachment_field :group_image, placeholder:"グループの画像", class: "attachment_form" %>
+	</div><br>
+	<div class="select">
+	  <%= g.label :参加権限 %><br>
+	  <%= g.select(:lock, [['全ての人が参加できます', false], ['招待した人のみ', true]]) %>
+	</div><br>
+	<div class="select">
+	  <%= g.label :閲覧制限 %><br>
+	  <%= g.select(:restrict, [['全べての人が閲覧できます', false], ['メンバーのみ閲覧できます', true]]) %>
+	</div><br>
 	<div class="actions">
 	  <p></p>
 	  <%= g.submit "新規作成" %>

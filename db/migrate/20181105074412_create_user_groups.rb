@@ -5,6 +5,7 @@ class CreateUserGroups < ActiveRecord::Migration[5.2]
       t.integer :group_id
       t.boolean :entry, default: false, null: false
       t.boolean :owner, default: false, null: false
+      t.boolean :creater, default: false, null: false
 
       t.timestamps
     end
