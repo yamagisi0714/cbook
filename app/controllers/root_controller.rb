@@ -7,6 +7,6 @@ class RootController < ApplicationController
     end
   	#ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
   	group = Group.where(restrict: false).ids
-  	@views = Recipe.where(group_id: group).order(views: "ASC")
+  	@views = Recipe.where(group_id: group).order(views: "DESC")
   end
 end

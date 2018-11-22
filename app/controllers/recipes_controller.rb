@@ -20,14 +20,14 @@ class RecipesController < ApplicationController
   	@recipe = Recipe.new(recipe_params)
     @recipe.user_id = current_user.id
   	@recipe.save
-    #並び順の番号
-    #--------------------------------------------------------------
-    @steps = @recipe.steps
-    @steps.each_with_index do |step,i|
-      step.procedure_num = i+1
-      step.save
-    end
-    #--------------------------------------------------------------
+    # #並び順の番号
+    # #--------------------------------------------------------------
+    # @steps = @recipe.steps
+    # @steps.each_with_index do |step,i|
+    #   step.procedure_num = i+1
+    #   step.save
+    # end
+    # #--------------------------------------------------------------
   	redirect_to recipe_path(@recipe)
   end
 

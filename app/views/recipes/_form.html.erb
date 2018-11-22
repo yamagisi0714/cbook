@@ -1,6 +1,8 @@
+<div class="recipe_form">
 <%= form_for @recipe do |f| %>
   <div class="field">
-    <%= f.label :title, "タイトル" %><br>
+    <%= f.label :title, "タイトル" %>
+    <br>
     <%= f.text_field :title %>
     <%= f.collection_select :category_id, Category.all, :id, :category_name, include_blank: true %>
   </div>
@@ -22,14 +24,16 @@
     <%= f.fields_for :steps do |step| %>
       <%= render 'step_fields', f: step %>
     <% end %>
-    <div id="links">
-      <%= link_to_add_association '手順を追加',f, :steps %>
-    </div><br>
-    <div id="group">
-      <%= f.label :cook_image, "投稿するグループを指定" %>
-      <%= f.collection_select :group_id, @ingroup, :id, :group_name, include_blank: true %>
-    </div>
-    <br>
-    <%= f.submit '登録' %>
+  <div id="links">
+    <%= link_to_add_association '手順を追加',f, :steps %>
   </div>
+  <br>
+  <div id="group">
+    <%= f.label :cook_image, "投稿するグループを選択" %>
+    <%= f.collection_select :group_id, @ingroup, :id, :group_name %>
+  </div>
+  <br>
+  <%= f.submit '登録' %>
+</div>
 <% end %>
+</div>
