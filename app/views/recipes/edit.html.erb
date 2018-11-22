@@ -1,2 +1,14 @@
-<h1>Resipes#edit</h1>
-<p>Find me in app/views/resipes/edit.html.erb</p>
+<div class="container">
+	<div class="row">
+		<div class="sidebar">
+			<%= render 'root/sidebar' %>
+		</div>
+		<div class="none col-xs-1">
+		</div>
+		<div class="form col-xs-8">
+			<h1>レシピ編集</h1>
+			<%= render 'form', recipe: @recipe %>
+			<%= link_to 'Back', recipes_path %>
+		</div>
+	</div>
+</div>

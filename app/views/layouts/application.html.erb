@@ -30,6 +30,9 @@
                     <%=link_to "マイページ",user_path(current_user) %>
                   </li>
                   <li role="presentation">
+                    <%=link_to "投稿履歴", user_history_path(current_user.id) %>
+                  </li>
+                  <li role="presentation">
                     <%= link_to "設定", edit_user_path(current_user) %>
                   </li>
                   <li role="presentation">

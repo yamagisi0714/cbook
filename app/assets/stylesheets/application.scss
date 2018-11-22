@@ -20,7 +20,6 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	text-align: center;
 }
 
 
@@ -52,4 +51,11 @@ ul {
 }
 .group_image {
 	width: 100%;
+}
+.group_icon {
+	height: 20px;
+	border-radius: 50%;
+}
+.index_recipe_iamges {
+	height: 150px;
 }

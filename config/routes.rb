@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 		resource :keeps, only: [:create, :destroy]
 		resources :steps, only: [:create, :edit, :update, :destroy]#コクーン
 		resources :materials, only:[:create, :edit, :update, :destroy]#コクーン
-		post "public" => 'recipes#count'
+		post "count" => 'recipes#count'
 	end
 	resources :categories, only: [:index,:show, :create, :update, :destroy, :edit]
 	resources :units, only: [:index, :create, :update, :destroy, :edit]#materialにセレクトボックスで選択

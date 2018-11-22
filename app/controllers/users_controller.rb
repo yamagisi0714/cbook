@@ -4,6 +4,10 @@ class UsersController < ApplicationController
   end
 
   def show
+    #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
+    @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
+    @join_group = UserGroup.where(user_id: current_user.id, entry: true)#参加中のグループ
+    #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
   	@user = User.find(params[:id])
   end
 
@@ -24,11 +28,15 @@ class UsersController < ApplicationController
     end
   end
   def history
+    #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
+    @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
+    @join_group = UserGroup.where(user_id: current_user.id, entry: true)#参加中のグループ
+    #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @user = User.find(current_user.id)
   end
 
   private
     def user_params
-         params.require(:user).permit(:name, :user_image, :mail)
+         params.require(:user).permit(:name, :account, :user_image, :mail)
     end
 end

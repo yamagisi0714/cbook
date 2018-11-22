@@ -17,20 +17,29 @@ class GroupsController < ApplicationController
   end
 
   def new
+    #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
+    @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
+    @join_group = UserGroup.where(user_id: current_user.id, entry: true)#参加中のグループ
+    #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @new_group = Group.new
   end
   def create
     if UserGroup.where(user_id: current_user.id, creater: true).count >= 3
-      redirect_to root_path , notice: "グループ作成は上限３つまでです。"
+      redirect_to root_path #, notice: "作成できるグループは上限３つまで。"
+    else
+      @new_group = Group.new(group_params)
+      @new_group.save
+      @user_group = UserGroup.new(user_id: current_user.id, group_id: @new_group.id, entry: true, owner: true, creater: true)
+      @user_group.save
+      redirect_to group_path(@new_group)
     end
-    @new_group = Group.new(group_params)
-    @new_group.save
-    @user_group = UserGroup.new(user_id: current_user.id, group_id: @new_group.id, entry: true, owner: true, creater: true)
-    @user_group.save
-    redirect_to group_path(@new_group)
   end
 
   def show
+    #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
+    @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
+    @join_group = UserGroup.where(user_id: current_user.id, entry: true)#参加中のグループ
+    #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @group = Group.find(params[:id])
     if @group.restrict && !UserGroup.find_by(entry: true,  group_id: @group.id, user_id: current_user.id)
       redirect_to root_path
@@ -38,6 +47,10 @@ class GroupsController < ApplicationController
   end
 
   def edit
+    #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
+    @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
+    @join_group = UserGroup.where(user_id: current_user.id, entry: true)#参加中のグループ
+    #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @group = Group.find(params[:id])
     @invite_group = UserGroup.new
     # @user_search = User.search(params[:search])

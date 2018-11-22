@@ -7,14 +7,14 @@
 				<thead>
 					<tr>
 						<th>ユーザー名</th>
-						<th>メールアドレス</th>
+						<th>アカウントID</th>
 					</tr>
 				</thead>
 				<tbody>
 					<% @user_search.each do |s| %>
 					<tr>
 						<th><%= s.name %></th>
-						<th><%= s.email %></th>
+						<th><%= s.account %></th>
 						<th>
 							<%= link_to "招待",  {:action=>"invite", :controller=>"groups", :group_id=>@group.id, :search_user_id=>s.id}, method: :post %>
 							</th>

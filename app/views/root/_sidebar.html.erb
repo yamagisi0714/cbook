@@ -1,12 +1,36 @@
 <% if user_signed_in? %>
-<div class="sidebar">
-	<nav class="nav-list col-xs-2">
-		<ul><%=link_to "レシピ新規追加", new_recipe_path %></ul>
-		<ul><%= link_to "グループ作成", new_group_path %></ul>
-		<ul><%= link_to "登録グループ", groups_path %></ul>
-		<!-- 最終的にはリンクではなくeach文でユーザーが一覧登録しているグループを表示させる -->
-		<ul><%=link_to "投稿履歴", user_history_path(current_user.id) %></ul>
-	</nav>
+<div class="col-xs-3">
+	<table class="table table-hover">
+		<thead class="sidebar_head">
+			<tr>
+				<th><%=link_to "レシピ新規追加", new_recipe_path %></th>
+			</tr>
+			<tr>
+				<th><%= link_to "グループ作成", new_group_path %></th>
+			</tr>
+			<tr>
+				<th><%= link_to "登録グループ", groups_path %></th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @join_group.each do |join| %>
+			<tr>
+				<td class="join_group">
+					<%= link_to group_path(join.group.id) do %>
+					<div class="icon col-xs-4">
+					<%= attachment_image_tag join.group, :group_image, fallback: "no_image.jpg", class: "group_icon" %>
+					</div>
+					<div class="group_name col-xs-8">
+					<%= join.group.group_name %>
+					</div>
+					<% end %>
+				</td>
+				<tr>
+				</tr>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
 </div>
 <% else %>
 <% end %>
