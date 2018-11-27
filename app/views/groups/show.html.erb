@@ -3,8 +3,6 @@
 		<div class="sidebar">
 			<%= render 'root/sidebar' %>
 		</div>
-		<div class="none col-xs-1">
-		</div>
 		<div class="contents col-xs-8">
 			<div class="header row">
 				<div class="group_img col-xs-2">
@@ -30,15 +28,61 @@
 						<% end %>
 					</div><br>
 					<div class="group_join">
-						<% if @group.lock == false %>
+						<% if @group.lock == false && !UserGroup.find_by(entry: true,  group_id: @group.id, user_id: current_user.id)%>
 						<%= link_to 'グループに参加', group_joins_path(@group), method: :post, class: 'btn btn-success btn-block' %>
 						<% end %>
 					</div>
-					<!-- User.groupのentryの時に申し込み中に変化  countと同じように他のURLを作成する　-->
-			</div>
+				</div>
+			</div><br>
 			<div class="row">
 				<% if UserGroup.find_by(group_id: @group.id, user_id: current_user.id, entry: true, owner: true) %>
 				<%= link_to"", edit_group_path(@group), class: 'col-xs-12 btn btn-default glyphicon glyphicon-wrench'%>
+				<% end %>
+			</div>
+			<div class="row">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>人気レシピ</th>
+						</tr>
+					</thead>
+				</table>
+				<% @popularity.each do |v| %>
+					<td class="recipes col-xs-4">
+						<%= link_to recipe_count_path(v), method: :post do %>
+						<div class=" col-xs-4">
+							<ul class="thumbnail">
+								<li><%= attachment_image_tag v, :cook_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %></li>
+								<li><%= v.title %></li>
+								<li><%= v.group.group_name %>・<span class="glyphicon glyphicon-eye-open"></span>閲覧数：<%= v.views %>回</li>
+								<li>更新日　<%= v.updated_at.strftime('%Y年%m月%d日') %></li>
+							</ul>
+						</div>
+						<% end %>
+					</td>
+				<% end %>
+			</div>
+			<div class="row">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>グループレシピ</th>
+						</tr>
+					</thead>
+				</table>
+				<% @group_recipes.each do |v| %>
+					<td class="recipes col-xs-4">
+						<%= link_to recipe_count_path(v), method: :post do %>
+						<div class=" col-xs-4">
+							<ul class="thumbnail">
+								<li><%= attachment_image_tag v, :cook_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %></li>
+								<li><%= v.title %></li>
+								<li><%= v.group.group_name %>・<span class="glyphicon glyphicon-eye-open"></span>閲覧数：<%= v.views %>回</li>
+								<li>更新日　<%= v.updated_at.strftime('%Y年%m月%d日') %></li>
+							</ul>
+						</div>
+						<% end %>
+					</td>
 				<% end %>
 			</div>
 		</div>

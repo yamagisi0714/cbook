@@ -3,8 +3,6 @@
 		<div class="sidebar">
 			<%= render 'root/sidebar' %>
 		</div>
-		<div class="none col-xs-1">
-		</div>
 		<div class="edit_form col-xs-8">
 			<%= form_for(@group) do |f| %>
 				<% if @group.errors.any? %>
@@ -72,11 +70,15 @@
 							</th>
 							<th>
 								<%if g.owner == true %>
-								オーナー
+								<%= link_to "一般に戻す",  {:action=>"change", :controller=>"member", :group_id=>@group.id, :user_id=>g.user.id}, method: :patch %>
+								<% elsif UserGroup.find_by(user_id: g.user.id, entry: true, owner: false) %>
+								<%= link_to "オーナーにする",  {:action=>"change", :controller=>"member", :group_id=>@group.id, :user_id=>g.user.id}, method: :patch %>
+								<% else UserGroup.find_by(user_id: g.user.id, entry: false, owner: false) %>
+								招待中
 								<% end %>
 							</th>
 							<th>
-								<%= link_to "グループ退会", group_members_path(g), method: :delete, "data-confirm" => "本当に退会させますか？" %>
+								<%= link_to "グループ退会",  {:action=>"ban", :controller=>"member", :group_id=>@group.id, :user_id=>g.user.id}, method: :delete %>
 							</th>
 						</tr>
 						<% end %>

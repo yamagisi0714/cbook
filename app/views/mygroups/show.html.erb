@@ -1,0 +1,92 @@
+<div class="container">
+	<div class="row">
+		<div class="waiting_groups">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>承認待ち</th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<% if @waiting.count > 0 %>
+						<% @wait_groups.each do |w| %>
+						<tr>
+							<td><%= w.group_name %></td>
+							<td>参加人数<%= w.user_groups.where(entry: true).count %>人</td>
+							<td><%= link_to"承認", group_approval_path(w),method: :patch %></td>
+							<td><%= link_to "拒否", group_withdrawal_path(w), method: :delete, "data-confirm" => "本当に拒否しますか？" %></td>
+						</tr>
+						<% end %>
+					<% else %>
+						<tr>
+							<td>現在招待されているグループはありません。</td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+		<div class="ownergroups">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>オーナー</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% if @owner.count > 0 %>
+						<% @ownergroups.each do |m| %>
+						<tr class="col-xs-4">
+							<td>
+								<ul class="thumbnail">
+									<%= link_to group_path(m) do %>
+										<li><%= attachment_image_tag m, :group_image, fallback: "no_image.jpg" %></li>
+										<li><%= m.group_name %></li>
+									<% end %>
+									<li>参加人数<%= m.user_groups.where(entry: true).count %>人</li>
+									<li>登録者数<%= m.favorites.count %>人</li>
+									<li><%= link_to "グループ退会", group_withdrawal_path(m), method: :delete, "data-confirm" => "本当に退会しますか？" %></li>
+								</ul>
+							</td>
+						</tr>
+						<% end %>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+		<div class="mygroups">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>参加しているグループ</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% if @joingroups.count > 0 %>
+						<% @mygroups.each do |m| %>
+						<tr class="col-xs-4">
+							<td>
+								<ul class="thumbnail">
+									<%= link_to group_path(m) do %>
+										<li><%= attachment_image_tag m, :group_image, fallback: "no_image.jpg" %></li>
+										<li><%= m.group_name %></li>
+									<% end %>
+									<li>参加人数<%= m.user_groups.where(entry: true).count %>人</li>
+									<li>登録者数<%= m.favorites.count %>人</li>
+									<li><%= link_to "グループ退会", group_withdrawal_path(m), method: :delete, "data-confirm" => "本当に退会しますか？" %></li>
+								</ul>
+							</td>
+						</tr>
+						<% end %>
+					<% else %>
+						<tr>
+							<td>現在参加しているグループはありません。</td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

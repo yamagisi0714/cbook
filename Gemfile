@@ -74,5 +74,10 @@ gem 'jquery-rails'
 gem 'kaminari'
 # 複数の入力フォーム
 gem 'cocoon'
-
+#binding.pry
 gem 'pry-rails'
+#並び替え
+gem 'ranked-model'
+gem 'jquery-ui-rails'
+# ページ
+gem 'kaminari'

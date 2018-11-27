@@ -4,7 +4,14 @@
     <%= f.label :title, "タイトル" %>
     <br>
     <%= f.text_field :title %>
-    <%= f.collection_select :category_id, Category.all, :id, :category_name, include_blank: true %>
+    <%= f.collection_select :category_id, Category.all, :id, :category_name %>
+    <br>
+    <br>
+    <%= f.label :comment, "レシピへのコメント" %>
+    <br>
+    <%= f.text_area :comment, :size=>"60x5" %>
+    <br>
+    <br>
   </div>
   <div class="field">
     <%= f.label :cook_image, "完成品画像" %>
@@ -16,7 +23,7 @@
       <%= render 'material_fields', f: material %>
     <% end %>
     <div id="links">
-      <%= link_to_add_association '材料を追加',f, :materials %>
+      <%= link_to_add_association '材料を追加',f, :materials, class: "btn btn-default" %>
     </div>
   </div>
   <h3>手順</h3>
@@ -25,7 +32,7 @@
       <%= render 'step_fields', f: step %>
     <% end %>
   <div id="links">
-    <%= link_to_add_association '手順を追加',f, :steps %>
+    <%= link_to_add_association '手順を追加',f, :steps, class: "btn btn-default" %>
   </div>
   <br>
   <div id="group">
@@ -33,7 +40,10 @@
     <%= f.collection_select :group_id, @ingroup, :id, :group_name %>
   </div>
   <br>
-  <%= f.submit '登録' %>
-</div>
+  <%= f.submit 'レシピを投稿', class: "col-xs-6 col-xs-offset-3" %>
+  <br>
+  <br>
 <% end %>
 </div>
+
+

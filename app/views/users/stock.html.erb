@@ -6,17 +6,18 @@
 		<div class="contents col-xs-8">
 			<!-- -------------------------------------------------------------------- -->
 			<div class="row">
-				<% if current_user.favorites.count == 0 %>
+				<% if current_user.keeps.count == 0 %>
+				ストックされているレシピがありません。
+				<% else %>
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th></th>
-							<th>最新レシピ</th>
-							<th></th>
+							<td>
+							</td>
 						</tr>
 					</thead>
 					<tbody>
-					<% @allrecipes.each do |v| %>
+					<% @stock_recipe.each do |v| %>
 						<tr class="row">
 							<td class="recipes">
 								<%= link_to recipe_count_path(v), method: :post do %>
@@ -26,32 +27,6 @@
 								<div class="info col-xs-8">
 									<ul>
 										<li><h4><strong><%= v.title %></strong></h4></li>
-										<br>
-										<li><%= v.group.group_name %>・<span class="glyphicon glyphicon-eye-open">閲覧数：</span><%= v.views %>回</li>
-										<li>最終更新日　<%= v.updated_at.strftime('%Y年%m月%d日') %></li>
-									</ul>
-								</div>
-								<% end %>
-							</td>
-						</tr>
-					<% end %>
-					</tbody>
-				</table>
-				<% else %>
-				<table class="table table-hover">
-					<thead>
-					</thead>
-					<tbody>
-					<% @recipes.each do |v| %>
-						<tr class="row">
-							<td class="recipes">
-								<%= link_to recipe_count_path(v), method: :post do %>
-								<div class="index_recipe_iamges col-xs-4">
-									<%= attachment_image_tag v, :cook_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %>
-								</div>
-								<div class="info col-xs-8">
-									<ul>
-										<li><h3><strong><%= v.title %></strong></h3></li>
 										<br>
 										<li><%= v.group.group_name %>・<span class="glyphicon glyphicon-eye-open">閲覧数：</span><%= v.views %>回</li>
 										<li>最終更新日　<%= v.updated_at.strftime('%Y年%m月%d日') %></li>

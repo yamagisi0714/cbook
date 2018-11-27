@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2018_11_07_090901) do
 
   create_table "recipes", force: :cascade do |t|
     t.string "title"
+    t.string "comment"
     t.integer "views", default: 1
     t.string "cook_image_id"
     t.integer "category_id"

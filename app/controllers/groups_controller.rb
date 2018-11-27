@@ -11,21 +11,17 @@ class GroupsController < ApplicationController
   # ーーーーーーーーーーーーーーー
   def index
     @groups = Group.all
-    # @group_apply = UserGroup.new(user_id: current_user.id, group_id: @new_group.id)
-    # @group_apply.save
-    # redirect_to groups_path
   end
 
   def new
     #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
     @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
-    @join_group = UserGroup.where(user_id: current_user.id, entry: true)#参加中のグループ
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @new_group = Group.new
   end
   def create
     if UserGroup.where(user_id: current_user.id, creater: true).count >= 3
-      redirect_to root_path #, notice: "作成できるグループは上限３つまで。"
+      redirect_to root_path , notice: "作成できるグループは上限３つまで。"
     else
       @new_group = Group.new(group_params)
       @new_group.save
@@ -38,9 +34,10 @@ class GroupsController < ApplicationController
   def show
     #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
     @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
-    @join_group = UserGroup.where(user_id: current_user.id, entry: true)#参加中のグループ
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @group = Group.find(params[:id])
+    @popularity = @group.recipes.order(views: "DESC").limit(3)
+    @group_recipes = @group.recipes.order(created_at: "DESC")
     if @group.restrict && !UserGroup.find_by(entry: true,  group_id: @group.id, user_id: current_user.id)
       redirect_to root_path
     end
@@ -49,11 +46,9 @@ class GroupsController < ApplicationController
   def edit
     #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
     @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
-    @join_group = UserGroup.where(user_id: current_user.id, entry: true)#参加中のグループ
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @group = Group.find(params[:id])
     @invite_group = UserGroup.new
-    # @user_search = User.search(params[:search])
   end
 
   def update
@@ -70,17 +65,17 @@ class GroupsController < ApplicationController
   # 招待
   def invite
     if UserGroup.find_by(group_id: params[:group_id], user_id: params[:search_user_id])
-      # flash[:notice] = "このユーザーはすでにグループに登録されています。"
+      flash[:notice] = "このユーザーはすでにグループに登録されています。"
     else
       @invite_group = UserGroup.new(group_id: params[:group_id], user_id: params[:search_user_id])
       @invite_group.save
     end
-    redirect_to edit_group_path(@group)
+    redirect_to edit_group_path(params[:group_id])
   end
   # 参加
   def join
     if UserGroup.find_by(group_id: params[:group_id], user_id: current_user.id)
-      # flash[:notice] = "このユーザーはすでにグループに登録されています。"
+      flash[:notice] = "すでにグループに登録済みです。"
     else
       join_group = UserGroup.new(user_id: current_user.id, group_id: params[:group_id], entry: true)
       join_group.save

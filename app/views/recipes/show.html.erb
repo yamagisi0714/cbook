@@ -1,15 +1,18 @@
-<%= link_to '編集', edit_recipe_path(@recipe) %>
 <div class="container">
 	<div class="row">
-		<div class="sidebar">
-			<%= render 'root/sidebar' %>
-		</div>
-		<div class="none col-xs-1">
-		</div>
+		<!-- ----------------------------------------------------------------------------- -->
 		<div class="recipe col-xs-8">
 			<div class="info row">
 				<div class="create col-xs-10">
 					最終更新日：<%= @recipe.updated_at.strftime('%Y年%m月%d日') %>
+					<% if @recipe.user_id == current_user.id %>
+					<br>
+					<br>
+					<div class="recipe">
+						<%= link_to '編集', edit_recipe_path(@recipe), class: "btn btn-warning glyphicon glyphicon-pencil" %>
+						<%= link_to '削除',recipe_path(@recipe), method: :delete, "data-confirm" => "レシピを削除しますか？", class: "btn btn-danger glyphicon glyphicon-exclamation-sign"%>
+					</div>
+					<% end %>
 				</div>
 				<div class="count col-xs-2">
 					<%= @recipe.views %> 回閲覧
@@ -19,19 +22,34 @@
 				<div class="keep col-xs-2">
 					<% if @recipe.kept_by?(current_user) %>
 					  <div>
-					    <%= link_to recipe_keeps_path(@recipe), method: :delete, class: "glyphicon btn btn-default" do %>
+					    <%= link_to recipe_keeps_path(@recipe), method: :delete, class: "glyphicon btn btn-default glyphicon glyphicon-folder-close" do %>
 					    ストック済み
 					    <% end %>
 					  </div>
 					<% else %>
 					  <div>
-					    <%= link_to recipe_keeps_path(@recipe), method: :post, class: "glyphicon btn btn-info"  do %>
+					    <%= link_to recipe_keeps_path(@recipe), method: :post, class: "glyphicon btn btn-warning glyphicon glyphicon-folder-open"  do %>
 					    ストックに追加
 					    <% end %>
 					  </div>
 					<% end %>
 				</div><br>
 			</div><br>
+			<div class="title">
+				<table class="table">
+					<thead>
+						<tr>
+							<th><h2><%= @recipe.title %></h2></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><%= @recipe.comment %></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- ------------------------------------------------------------------------- -->
 			<div class="image col-xs-6">
 				<%= attachment_image_tag @recipe, :cook_image, fallback:"no_image.jpg" %>
 			</div>
@@ -53,6 +71,30 @@
 					</tbody>
 				</table>
 			</div>
+			<!-- ------------------------------------------------------------------------ -->
+			<% if @recipe.user_id == current_user.id %>
+			<div class="step row">
+				<table class="table table-bordered table-sortable" data-remote="true">
+					<thead>
+						<tr>
+							<th>手順</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @steps.each do |step| %>
+						<tr class='item', data-model_name=<%= step.class.name.underscore %> data-update-url=<%= recipe_step_sort_path(recipe_id: step.recipe.id, step_id: step.id) %> data-remote="true">
+							<%= hidden_field_tag "authenticity_token", form_authenticity_token %>
+							<td>
+								<ul>
+									<li><%= step.procedure %></li>
+								</ul>
+							</td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+			<% else %>
 			<div class="step row">
 				<table class="table">
 					<thead>
@@ -61,11 +103,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<% @step.each do |r| %>
+						<% @steps.each do |r| %>
 						<tr>
 							<div class="procesure col-xs-8">
 								<td class="procedure">
-									<ul><%= r.procedure_num %></ul>
 									<ul><%= r.procedure %></ul>
 								</td>
 							</div>
@@ -79,6 +120,67 @@
 					</tbody>
 				</table>
 			</div>
+			<% end %>
+			<div class="recipe_group">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>投稿グループ</th>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><%= link_to group_path(@recipe.group) do %>
+								<strong><%= @recipe.group.group_name%></strong>
+								<% end %>
+							</td>
+							<td>登録者数：<%= @recipe.group.favorites.count %>人</td>
+							<td></td>
+							<td>
+								<div class="favarite">
+									<% if @group.favorited_by?(current_user) %>
+									  <div>
+									    <%= link_to group_favorites_path(@group), method: :delete do %>
+									    グループ登録済み
+									    <% end %>
+									  </div>
+									<% else %>
+									  <div>
+									    <%= link_to group_favorites_path(@group), method: :post do %>
+									    グループ登録
+									    <% end %>
+									  </div>
+									<% end %>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="none col-xs-1">
+		</div>
+		<!-- ----------------------------------------------------------------------------- -->
+		<div class="relations col-xs-3">
+			<% @relations.each do |r| %>
+			<ul class="thumbnail">
+				<li class="recipes">
+					<%= link_to recipe_count_path(r), method: :post do %>
+							<li>
+								<div class="relations_image">
+								<%= attachment_image_tag r, :cook_image, fallback: "no_image.jpg", class: "relations_image" %>
+								</div>
+							</li>
+							<li><%= r.title %></li>
+							<li><%= r.group.group_name %>・<span class="glyphicon glyphicon-eye-open"></span>閲覧数：<%= r.views %>回</li>
+							<li>更新日　<%= r.updated_at.strftime('%Y年%m月%d日') %></li>
+					<% end %>
+				</li>
+			</ul>
+			<% end %>
 		</div>
 	</div>
 </div>

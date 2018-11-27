@@ -6,18 +6,18 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>閲覧数ランキング</th>
+							<th>おすすめ</th>
 						</tr>
 					</thead>
 				</table>
-				<% @views.each do |v| %>
+				<% @recommended.each do |v| %>
 					<td class="recipes col-xs-4">
 						<%= link_to recipe_count_path(v), method: :post do %>
 						<div class=" col-xs-4">
 							<ul class="thumbnail">
 								<li><%= attachment_image_tag v, :cook_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %></li>
-								<li><%= v.title %></li>
-								<li><%= v.group.group_name %>・<span class="glyphicon glyphicon-eye-open"></span><%= v.views %></li>
+								<li><strong><%= v.title %></strong></li>
+								<li><%= v.group.group_name %>・<span class="glyphicon glyphicon-eye-open"></span>閲覧数：<%= v.views %>回</li>
 								<li>更新日　<%= v.updated_at.strftime('%Y年%m月%d日') %></li>
 							</ul>
 						</div>
@@ -30,50 +30,48 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>おすすめ</th>
+							<th>週間閲覧数ランキング</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td class="recipes">
-								<div class=" col-xs-4">
-									<ul class="thumbnail">
-										<li>画像</li>
-										<li>タイトル</li>
-										<li>グループ名</li>
-										<li>閲覧数・ストック数</li>
-										<li>更新日</li>
-									</ul>
-								</div>
-							</td>
-						</tr>
-					</tbody>
 				</table>
+				<% @week_views.each do |v| %>
+					<td class="recipes col-xs-4">
+						<%= link_to recipe_count_path(v), method: :post do %>
+						<div class=" col-xs-4">
+							<ul class="thumbnail">
+								<li><%= attachment_image_tag v, :cook_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %></li>
+								<li><strong><%= v.title %></strong></li>
+								<li><%= v.group.group_name %>・<span class="glyphicon glyphicon-eye-open">閲覧数：</span><%= v.views %>回</li>
+								<li>更新日　<%= v.updated_at.strftime('%Y年%m月%d日') %></li>
+							</ul>
+						</div>
+						<% end %>
+					</td>
+				<% end %>
 			</div>
 			<!-- -------------------------------------------------------------------- -->
 			<div class="row">
 				<table class="table">
 					<thead>
 						<tr>
-							<th>おすすめ</th>
+							<th>月間閲覧数ランキング</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td class="recipes">
-								<div class=" col-xs-4">
-									<ul class="thumbnail">
-										<li>画像</li>
-										<li>タイトル</li>
-										<li>グループ名</li>
-										<li>閲覧数・ストック数</li>
-										<li>更新日</li>
-									</ul>
-								</div>
-							</td>
-						</tr>
-					</tbody>
 				</table>
+				<% @month_views.each do |v| %>
+					<td class="recipes col-xs-4">
+						<%= link_to recipe_count_path(v), method: :post do %>
+						<div class=" col-xs-4">
+							<ul class="thumbnail">
+								<li><%= attachment_image_tag v, :cook_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %></li>
+								<li><strong><%= v.title %></strong></li>
+								<li><%= v.group.group_name %>・<span class="glyphicon glyphicon-eye-open"></span>閲覧数：<%= v.views %>回</li>
+								<li>更新日　<%= v.updated_at.strftime('%Y年%m月%d日') %></li>
+							</ul>
+						</div>
+						<% end %>
+					</td>
+				<% end %>
 			</div>
 			<!-- -------------------------------------------------------------------- -->
 		</div>

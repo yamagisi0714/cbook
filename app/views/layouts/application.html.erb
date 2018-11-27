@@ -7,6 +7,13 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <!-- jQuery Ul touch punch -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js'></script>
+
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.css' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js'></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js'></script>
   </head>
 
   <body>
@@ -15,7 +22,7 @@
         <div class="row">
           <nav class="nav navbar-nav navbar-left">
             <%= link_to root_path, class: "header_logo" do %>
-            <h1>cbook</h1>
+             <%= image_tag("/images/logo.jpg", :size => "250x150", :alt => "logo") %>
             <% end %>
           </nav>
           <nav class="header_nav nav-list row">
@@ -23,20 +30,39 @@
               <% if user_signed_in? %>
               <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                  <%= current_user.name %>
+                  <%= image_tag("/images/header_icon.png", :size => "50x50", :alt => "header_icon") %>
                   <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
+                  <li><%= current_user.name %>さん</li>
                   <li role="presentation">
-                    <%=link_to "マイページ",user_path(current_user) %>
+                    <%=link_to user_path(current_user) do %>
+                    <p>登録グループ</p>
+                    <% end %>
                   </li>
                   <li role="presentation">
-                    <%=link_to "投稿履歴", user_history_path(current_user.id) %>
+                    <%=link_to user_mygroups_path(current_user.id) do %>
+                    <p>Myグループ(<%= UserGroup.where(user_id: current_user.id, entry: false).count %>)</p>
+                    <% end %>
                   </li>
                   <li role="presentation">
-                    <%= link_to "設定", edit_user_path(current_user) %>
+                    <%=link_to user_stock_path(current_user.id) do %>
+                    <p>ストック</p>
+                    <% end %>
                   </li>
                   <li role="presentation">
-                    <%=link_to "ログアウト",destroy_user_session_path, method: :delete %>
+                    <%=link_to user_history_path(current_user.id) do %>
+                    <p>投稿履歴</p>
+                    <% end %>
+                  </li>
+                  <li role="presentation">
+                    <%= link_to edit_user_path(current_user) do %>
+                    <p>設定</p>
+                    <% end %>
+                  </li>
+                  <li role="presentation">
+                    <%=link_to destroy_user_session_path, method: :delete do %>
+                    <p>ログアウト</p>
+                    <% end %>
                   </li>
                 </ul>
               </li>
@@ -51,11 +77,35 @@
             </ul>
           </nav>
         </div>
+        <div class=flash-message>
+        <% if flash[:notice] %>
+              <p><%= flash[:notice] %></p>
+            <% end %>
+          </div>
       </div>
     </header>
-    <main>
-      <%= yield %>
-    </main>
-    <footer></footer>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-1">
+          <div class="left_image">
+          </div>
+        </div>
+        <div class="col-xs-10">
+          <div class="main_image">
+            <main>
+                <%= yield %>
+            </main>
+          </div>
+        </div>
+        <div class="col-xs-1">
+          <div class="right_image">
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="under_image">
+      </div>
+    </footer>
   </body>
 </html>

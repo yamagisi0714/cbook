@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
-<div class="col-xs-3">
-	<table class="table table-hover">
+<div class="col-xs-4 hidden-xs">
+	<table class="table table-hover scrool">
 		<thead class="sidebar_head">
 			<tr>
 				<th><%=link_to "レシピ新規追加", new_recipe_path %></th>
@@ -9,24 +9,22 @@
 				<th><%= link_to "グループ作成", new_group_path %></th>
 			</tr>
 			<tr>
-				<th><%= link_to "登録グループ", groups_path %></th>
+				<th><%= link_to "登録グループ", user_path(current_user) %></th>
 			</tr>
 		</thead>
 		<tbody>
-			<% @join_group.each do |join| %>
+			<% @favorite_group.each do |join| %>
 			<tr>
-				<td class="join_group">
+				<td class="favorite_group">
 					<%= link_to group_path(join.group.id) do %>
-					<div class="icon col-xs-4">
+					<div class="icon col-xs-2">
 					<%= attachment_image_tag join.group, :group_image, fallback: "no_image.jpg", class: "group_icon" %>
 					</div>
-					<div class="group_name col-xs-8">
-					<%= join.group.group_name %>
+					<div class="group_name col-xs-10">
+						<strong><%= truncate(join.group.group_name, length:9) %></strong>
 					</div>
 					<% end %>
 				</td>
-				<tr>
-				</tr>
 			</tr>
 			<% end %>
 		</tbody>

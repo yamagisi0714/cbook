@@ -1,14 +1,13 @@
 class UsersController < ApplicationController
-  def index
-    @user = User.all
-  end
 
   def show
     #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
     @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
-    @join_group = UserGroup.where(user_id: current_user.id, entry: true)#参加中のグループ
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
   	@user = User.find(params[:id])
+    fovorite = current_user.favorites.pluck(:group_id)
+    @recipes = Recipe.where(group_id: fovorite).order(created_at: "DESC")
+    @allrecipes = Recipe.order(created_at: "DESC").limit(20)
   end
 
   def edit
@@ -21,18 +20,28 @@ class UsersController < ApplicationController
   end
   def update
     @user = User.find(params[:id])
-    if @user.update(user_params)
-    redirect_to user_path(@user)
-    else
-      render :action => "edit"
-    end
+    @user.update(user_params)
+    redirect_to user_path(current_user.id)
+  end
+  def destory
+    user.find(params[:id])
+    user.destory
+    redirect_to root_path, notice: "削除しました"
   end
   def history
     #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
     @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
-    @join_group = UserGroup.where(user_id: current_user.id, entry: true)#参加中のグループ
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @user = User.find(current_user.id)
+  end
+  def stock
+    #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
+    @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
+    #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+    @user = User.find(params[:user_id])
+    stock = current_user.keeps.pluck(:recipe_id)
+    @recipe = Recipe.where(id: stock)
+    @stock_recipe = @recipe.find(Keep.group(:recipe_id).order('created_at desc').pluck(:recipe_id))
   end
 
   private
