@@ -20,7 +20,6 @@ class RootController < ApplicationController
     week = (now - 7.day).at_end_of_day
     @week_views = Recipe.where(group_id: open_group, created_at: week...now).order(views: "DESC").page(params[:week_peage]).per(PER)#.limit(12)
   	@month_views = Recipe.where(group_id: open_group, created_at: month...now).order(views: "DESC").page(params[:month_page]).per(PER)
-    #おすすめ
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @recommended = Recipe.where(group_id: open_group, created_at: month...now).sample(6)
     # @recommended = @open_recipe.find(Keep.group(:recipe_id).order('count(recipe_id) desc').limit(12).pluck(:recipe_id))

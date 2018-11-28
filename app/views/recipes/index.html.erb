@@ -1,0 +1,32 @@
+<div class="container">
+	<div class="row">
+		<div class="sidebar">
+			<%= render 'root/sidebar' %>
+		</div>
+		<div class="contents col-xs-8">
+			<div class="header row">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>検索結果</th>
+						</tr>
+					</thead>
+				</table>
+				<% @search_recipe.each do |search| %>
+					<td class="recipes col-xs-4">
+						<%= link_to recipe_count_path(search), method: :post do %>
+						<div class=" col-xs-4">
+							<ul class="thumbnail">
+								<li><%= attachment_image_tag search, :cook_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %></li>
+								<li><%= search.title %></li>
+								<li><%= search.group.group_name %>・<span class="glyphicon glyphicon-eye-open"></span>閲覧数：<%= search.views %>回</li>
+								<li>更新日　<%= search.updated_at.strftime('%Y年%m月%d日') %></li>
+							</ul>
+						</div>
+						<% end %>
+					</td>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>

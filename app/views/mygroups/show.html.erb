@@ -35,26 +35,25 @@
 						<th>オーナー</th>
 					</tr>
 				</thead>
-				<tbody>
-					<% if @owner.count > 0 %>
-						<% @ownergroups.each do |m| %>
-						<tr class="col-xs-4">
-							<td>
-								<ul class="thumbnail">
-									<%= link_to group_path(m) do %>
-										<li><%= attachment_image_tag m, :group_image, fallback: "no_image.jpg" %></li>
-										<li><%= m.group_name %></li>
+			</table>
+			<% if @owner.count > 0 %>
+				<% @ownergroups.each do |m| %>
+					<td class="col-xs-4">
+						<%= link_to group_path(m) do %>
+						<div class="col-xs-4">
+							<div class="thumbnail">
+								<ul>
+									<li><%= attachment_image_tag m, :group_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %></li>
+									<li><%= m.group_name %></li>
 									<% end %>
-									<li>参加人数<%= m.user_groups.where(entry: true).count %>人</li>
-									<li>登録者数<%= m.favorites.count %>人</li>
+									<li><strong>参加人数<%= m.user_groups.where(entry: true).count %>人/登録者数<%= m.favorites.count %>人</strong></li>
 									<li><%= link_to "グループ退会", group_withdrawal_path(m), method: :delete, "data-confirm" => "本当に退会しますか？" %></li>
 								</ul>
-							</td>
-						</tr>
-						<% end %>
-					<% end %>
-				</tbody>
-			</table>
+							</div>
+						</div>
+					</td>
+				<% end %>
+			<% end %>
 		</div>
 		<div class="mygroups">
 			<table class="table">
@@ -63,30 +62,27 @@
 						<th>参加しているグループ</th>
 					</tr>
 				</thead>
-				<tbody>
-					<% if @joingroups.count > 0 %>
-						<% @mygroups.each do |m| %>
-						<tr class="col-xs-4">
-							<td>
-								<ul class="thumbnail">
-									<%= link_to group_path(m) do %>
-										<li><%= attachment_image_tag m, :group_image, fallback: "no_image.jpg" %></li>
-										<li><%= m.group_name %></li>
-									<% end %>
-									<li>参加人数<%= m.user_groups.where(entry: true).count %>人</li>
-									<li>登録者数<%= m.favorites.count %>人</li>
-									<li><%= link_to "グループ退会", group_withdrawal_path(m), method: :delete, "data-confirm" => "本当に退会しますか？" %></li>
-								</ul>
-							</td>
-						</tr>
-						<% end %>
-					<% else %>
-						<tr>
-							<td>現在参加しているグループはありません。</td>
-						</tr>
-					<% end %>
-				</tbody>
 			</table>
+				<% if @joingroups.count > 0 %>
+				<td class="col-xs-4">
+					<% @mygroups.each do |m| %>
+					<div class="col-xs-4">
+						<ul class="thumbnail">
+							<%= link_to group_path(m) do %>
+								<li><%= attachment_image_tag m, :group_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %></li>
+								<li><%= m.group_name %></li>
+							<% end %>
+							<li><strong>参加人数<%= m.user_groups.where(entry: true).count %>人/登録者数<%= m.favorites.count %>人</strong></li>
+							<li><%= link_to "グループ退会", group_withdrawal_path(m), method: :delete, "data-confirm" => "本当に退会しますか？" %></li>
+						</ul>
+					</div>
+				</td>
+					<% end %>
+				<% else %>
+					<tr>
+						<td>現在参加しているグループはありません。</td>
+					</tr>
+				<% end %>
 		</div>
 	</div>
 </div>

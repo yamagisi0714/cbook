@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @user = User.find(current_user.id)
-    correct_user = User.find([:user_id])
+    correct_user = User.find(params[:user_id])
     unless correct_user == current_user
       redirect_to root_path
     end
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
     @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @user = User.find(params[:user_id])
-    correct_user = User.find([:user_id])
+    correct_user = User.find(params[:user_id])
     unless correct_user == current_user
       redirect_to root_path
     end
