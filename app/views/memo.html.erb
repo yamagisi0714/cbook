@@ -1,0 +1,56 @@
+<div class="container">
+	<div class="row">
+		<div class="contents">
+			<!-- -------------------------------------------------------------------- -->
+			<div class="row">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>閲覧数ランキング</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @views.each do |v| %>
+						<tr>
+							<td class="recipes">
+								<%= link_to recipe_path(v) do %>
+								<div class=" col-xs-4">
+									<ul class="thumbnail">
+										<li><%= attachment_image_tag v, :cook_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %></li>
+										<li><%= v.title %></li>
+										<li><%= v.group.group_name %></li>
+										<li>閲覧数<%= v.views %>/ストック数<%= v.keeps.count %></li>
+										<li>更新日<%= v.updated_at.strftime('%Y年%m月%d日') %></li>
+									</ul>
+								</div>
+								<% end %>
+							</td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+			<!-- -------------------------------------------------------------------- -->
+		</div>
+	</div>
+</div>
+
+<!-- -------------------------------------------------------------------- -->
+
+controller
+#並び順の番号
+    #--------------------------------------------------------------
+    @steps = @recipe.steps
+    @steps.each_with_index do |step,i|
+      step.procedure_num = i+1
+      step.save
+    end
+    #--------------------------------------------------------------
+
+<!-- -------------------------------------------------------------------- -->
+
+<td class="item" data-model_name=<%= step.class.name.underscore %> data-update_url=<%= recipe_step_sort_path(step.recipe, step) %>>
+<!-- -------------------------------------------------------------------- -->
+<%= link_to "拒否", user_mygroups(w), method: :delete, "data-confirm" => "本当に退会させますか？" %>
+<!-- -------------------------------------------------------------------- -->
+<%= link_to "グループ退会", group_members_path(g), method: :delete, "data-confirm" => "本当に退会させますか？" %>

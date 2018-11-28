@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  procedure_num: 1
+  procedure: MyString
+  details: MyString
+
+two:
+  procedure_num: 1
+  procedure: MyString
+  details: MyString

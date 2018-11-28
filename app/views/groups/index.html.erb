@@ -1,0 +1,22 @@
+<div class="container">
+	<div class="row">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>グループ名</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @groups.each do |g| %>
+				<tr>
+					<th>
+						<%= link_to group_path(g) do %>
+						<%= g.group_name %>
+						<% end%>
+					</th>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,11 @@
+<div class="nested-fields well well-compact form-inline">
+  <div class="form-group">
+    <%= f.attachment_field :step_image, placeholder: "解説用画像", class: "attachment_form" %>
+    <br>
+    <%= f.text_area :procedure, :size=>"60x5", placeholder:"かぶの皮を剥ぎ、1/4の大きさにカットします。" %>
+    <br>
+    <%= link_to_remove_association "手順を削除", f %>
+  </div>
+</div>
+
+

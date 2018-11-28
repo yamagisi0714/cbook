@@ -1,0 +1,101 @@
+<div class="container">
+	<div class="row">
+		<div class="sidebar">
+			<%= render 'root/sidebar' %>
+		</div>
+		<div class="edit_form col-xs-8">
+			<%= form_for(@group) do |f| %>
+				<% if @group.errors.any? %>
+				    <div id="error_explanation">
+				      <h2><%= @group.errors.count %>件のエラーが発生しました。</h2>
+				      <ul>
+				      <% @group.errors.full_messages.each do |message| %>
+				        <li><%= message %></li>
+				      <% end %>
+				      </ul>
+				    </div>
+				<% end %>
+			<div class="edit_form row thumbnail">
+				<div class="group_set row">
+					<br>
+					<br>
+					<div class="name_edit">
+						<%= f.label :グループ名 %><br>
+						<%= f.text_field :group_name %>
+					</div><br>
+					<div class="select">
+					  <%= f.label :参加制限 %><br>
+					  <%= f.select(:lock, [['全ての人が参加できる', false], ['招待した人のみ参加ができる', true]]) %>
+					</div><br>
+					<div class="select">
+					  <%= f.label :閲覧制限 %><br>
+					  <%= f.select(:restrict, [['全ての人が閲覧ができる', false], ['メンバーのみ閲覧ができる', true]]) %>
+					</div><br>
+				</div>
+				<br>
+				<br>
+				<div class="image_edit">
+					<%= f.label :グループ画像を選択してください %>
+					<br>
+					<br>
+					<%= f.attachment_field :group_image, placeholder: "グループ画像", class: "attachment_form" %>
+					<p>(画像を選択しなかった場合既存のものが表示されます。)</p>
+				</div>
+				<br>
+				<div class="submit">
+					<%= f.submit " 更新 " %>
+				</div>
+				<% end %>
+			</div>
+			<div class="search">
+				<p>招待したい人のアカウントIDを入力してください</p>
+				<%= form_tag group_search_users_path(@group), :method => 'get' do %>
+					<%= text_field_tag :search %>
+				<%= submit_tag "招待", :account => nil %>
+				<% end %>
+			</div>
+			<div class="member row">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>メンバー</th>
+							<th>ステータス</th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @group.user_groups.each do |g| %>
+						<tr>
+							<th>
+								<%= g.user.name %>
+							</th>
+							<th>
+								<% if g.owner == true %>
+								<p><strong>オーナー</strong></p>
+								<% elsif UserGroup.find_by(user_id: g.user.id, entry: true, owner: false) %>
+								<p><strong>メンバー</strong></p>
+								<% else UserGroup.find_by(user_id: g.user.id, entry: false, owner: false) %>
+								<p><strong>招待中</strong></p>
+								<% end %>
+							</th>
+							<th>
+								<%if g.owner == true %>
+								<%= link_to "一般に戻す",  {:action=>"change", :controller=>"member", :group_id=>@group.id, :user_id=>g.user.id}, method: :patch %>
+								<% elsif UserGroup.find_by(user_id: g.user.id, entry: true, owner: false) %>
+								<%= link_to "オーナーにする",  {:action=>"change", :controller=>"member", :group_id=>@group.id, :user_id=>g.user.id}, method: :patch %>
+								<% else UserGroup.find_by(user_id: g.user.id, entry: false, owner: false) %>
+								<%= link_to "招待取り消し",  {:action=>"ban", :controller=>"member", :group_id=>@group.id, :user_id=>g.user.id}, method: :delete %>
+								<% end %>
+							</th>
+							<th>
+								<%= link_to "グループ退会",  {:action=>"ban", :controller=>"member", :group_id=>@group.id, :user_id=>g.user.id}, method: :delete %>
+							</th>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
