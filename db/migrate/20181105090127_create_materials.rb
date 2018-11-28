@@ -1,5 +1,6 @@
 class CreateMaterials < ActiveRecord::Migration[5.2]
   def change
+  	# create_table :materials, :options => 'ENGINE=InnoDB ROW_FORMAT=DYNAMIC' do |t|
     create_table :materials do |t|
       t.string :material_name
       t.string :quantity
