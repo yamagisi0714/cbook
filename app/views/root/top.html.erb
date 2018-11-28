@@ -49,6 +49,9 @@
 					</td>
 				<% end %>
 			</div>
+			<div class="row">
+				<%= paginate @week_views, :param_name => 'week_peage', class: "pagenate" %>
+			</div>
 			<!-- -------------------------------------------------------------------- -->
 			<div class="row">
 				<table class="table">
@@ -72,6 +75,9 @@
 						<% end %>
 					</td>
 				<% end %>
+			</div>
+			<div class="row">
+				<%= paginate @month_views, :param_name => 'month_page' %>
 			</div>
 			<!-- -------------------------------------------------------------------- -->
 		</div>

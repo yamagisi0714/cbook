@@ -1,4 +1,12 @@
 class UsersController < ApplicationController
+  before_action :correct_user
+
+  def correct_user
+    @user = User.find(params[:id])
+      unless @user == current_user
+        redirect_to root_path
+      end
+  end
 
   def show
     #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
@@ -6,7 +14,7 @@ class UsersController < ApplicationController
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
   	@user = User.find(params[:id])
     fovorite = current_user.favorites.pluck(:group_id)
-    @recipes = Recipe.where(group_id: fovorite).order(created_at: "DESC")
+    @recipes = Recipe.where(group_id: fovorite).order(created_at: "DESC").page(params[:favorite]).per(10)
     @allrecipes = Recipe.order(created_at: "DESC").limit(20)
   end
 

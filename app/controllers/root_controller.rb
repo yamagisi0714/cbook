@@ -1,4 +1,5 @@
 class RootController < ApplicationController
+  PER = 12
   def top
   	#ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
   	if user_signed_in?
@@ -17,11 +18,11 @@ class RootController < ApplicationController
     now  = Time.new.tomorrow.at_beginning_of_day
     month = (now - 1.month)
     week = (now - 7.day).at_end_of_day
-    @week_views = Recipe.where(group_id: open_group, created_at: week...now).order(views: "DESC").limit(12)
-  	@month_views = Recipe.where(group_id: open_group, created_at: month...now).order(views: "DESC").limit(12)
+    @week_views = Recipe.where(group_id: open_group, created_at: week...now).order(views: "DESC").page(params[:week_peage]).per(PER)#.limit(12)
+  	@month_views = Recipe.where(group_id: open_group, created_at: month...now).order(views: "DESC").page(params[:month_page]).per(PER)
     #おすすめ
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
-    @recommended = Recipe.where(group_id: open_group, created_at: month...now).sample(12)
+    @recommended = Recipe.where(group_id: open_group, created_at: month...now).sample(6)
     # @recommended = @open_recipe.find(Keep.group(:recipe_id).order('count(recipe_id) desc').limit(12).pluck(:recipe_id))
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
   end

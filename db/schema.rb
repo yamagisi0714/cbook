@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 2018_11_07_090901) do
   create_table "materials", force: :cascade do |t|
     t.string "material_name"
     t.string "quantity"
+    t.integer "material_num"
     t.integer "recipe_id"
-    t.integer "unit_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

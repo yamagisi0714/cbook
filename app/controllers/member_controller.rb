@@ -1,4 +1,12 @@
 class MemberController < ApplicationController
+	before_action :owner
+
+	def owner
+		unless
+		  @owner = UserGroup.find_by(entry: true, owner: true,  group_id:  params[:id], user_id: current_user.id)
+		  redirect_to root_path
+		end
+	end
 	def change
 		user = User.find(params[:user_id])
 		group = Group.find(params[:group_id])

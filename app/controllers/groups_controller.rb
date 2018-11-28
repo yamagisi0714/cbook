@@ -37,7 +37,7 @@ class GroupsController < ApplicationController
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @group = Group.find(params[:id])
     @popularity = @group.recipes.order(views: "DESC").limit(3)
-    @group_recipes = @group.recipes.order(created_at: "DESC")
+    @group_recipes = @group.recipes.order(created_at: "DESC").page(params[:week_peage]).per(18)
     if @group.restrict && !UserGroup.find_by(entry: true,  group_id: @group.id, user_id: current_user.id)
       redirect_to root_path
     end

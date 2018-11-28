@@ -59,6 +59,8 @@
 					<thead>
 						<tr>
 							<th>メンバー</th>
+							<th>ステータス</th>
+							<th></th>
 							<th></th>
 						</tr>
 					</thead>
@@ -69,12 +71,21 @@
 								<%= g.user.name %>
 							</th>
 							<th>
+								<% if g.owner == true %>
+								<p><strong>オーナー</strong></p>
+								<% elsif UserGroup.find_by(user_id: g.user.id, entry: true, owner: false) %>
+								<p><strong>メンバー</strong></p>
+								<% else UserGroup.find_by(user_id: g.user.id, entry: false, owner: false) %>
+								<p><strong>招待中</strong></p>
+								<% end %>
+							</th>
+							<th>
 								<%if g.owner == true %>
 								<%= link_to "一般に戻す",  {:action=>"change", :controller=>"member", :group_id=>@group.id, :user_id=>g.user.id}, method: :patch %>
 								<% elsif UserGroup.find_by(user_id: g.user.id, entry: true, owner: false) %>
 								<%= link_to "オーナーにする",  {:action=>"change", :controller=>"member", :group_id=>@group.id, :user_id=>g.user.id}, method: :patch %>
 								<% else UserGroup.find_by(user_id: g.user.id, entry: false, owner: false) %>
-								招待中
+								<%= link_to "招待取り消し",  {:action=>"ban", :controller=>"member", :group_id=>@group.id, :user_id=>g.user.id}, method: :delete %>
 								<% end %>
 							</th>
 							<th>

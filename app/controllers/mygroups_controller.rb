@@ -1,5 +1,10 @@
 class MygroupsController < ApplicationController
+
   def show
+    @user = User.find(params[:user_id])
+      unless @user == current_user
+        redirect_to root_path
+      end
   	@joingroups = UserGroup.where(user_id: current_user.id, entry: true).pluck(:group_id)
   	@mygroups = Group.where(id: @joingroups)
     @owner = UserGroup.where(user_id: current_user.id, entry: true, owner: true).pluck(:group_id)

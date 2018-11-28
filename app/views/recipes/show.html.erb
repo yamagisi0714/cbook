@@ -53,6 +53,28 @@
 			<div class="image col-xs-6">
 				<%= attachment_image_tag @recipe, :cook_image, fallback:"no_image.jpg" %>
 			</div>
+			<!-- ------------------------------------------------------------------------- -->
+			<% if @recipe.user_id == current_user.id %>
+			<div class="material col-xs-6">
+				<table class="table table-bordered table-sortable2" data-remote="true">
+					<thead>
+						<tr>
+							<th>材料</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @materials.each do |material| %>
+						<tr class='item', data-model_name=<%= material.class.name.underscore %> data-update-url=<%= recipe_material_sort2_path(recipe_id: material.recipe.id, material_id: material.id) %> data-remote="true">
+							<%= hidden_field_tag "authenticity_token", form_authenticity_token %>
+							<td>
+								<%= material.material_name %>・・・・・<%= material.quantity %>
+							</td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+			<% else %>
 			<div class="material col-xs-6">
 				<table class="table">
 					<thead>
@@ -61,7 +83,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<% @recipe.materials.each do |r| %>
+						<% @materials.each do |r| %>
 						<tr>
 							<td>
 								<%= r.material_name %>・・・・・<%= r.quantity %>
@@ -71,6 +93,7 @@
 					</tbody>
 				</table>
 			</div>
+			<% end %>
 			<!-- ------------------------------------------------------------------------ -->
 			<% if @recipe.user_id == current_user.id %>
 			<div class="step row">
@@ -174,8 +197,8 @@
 								<%= attachment_image_tag r, :cook_image, fallback: "no_image.jpg", class: "relations_image" %>
 								</div>
 							</li>
-							<li><%= r.title %></li>
-							<li><%= r.group.group_name %>・<span class="glyphicon glyphicon-eye-open"></span>閲覧数：<%= r.views %>回</li>
+							<li><%= truncate(r.title, length:8) %></li>
+							<li><%= truncate(r.group.group_name, length:8) %>・<span class="glyphicon glyphicon-eye-open"></span>閲覧数：<%= r.views %>回</li>
 							<li>更新日　<%= r.updated_at.strftime('%Y年%m月%d日') %></li>
 					<% end %>
 				</li>

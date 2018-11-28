@@ -21,9 +21,11 @@ Rails.application.routes.draw do
 	resources :recipes do
 		resource :keeps, only: [:create, :destroy]#ストック
 		resources :steps do #料理手順
-		put :sort
+			put :sort
 		end
-		resources :materials, only:[:create, :edit, :update, :destroy]#材料
+		resources :materials do#材料
+			put :sort2
+		end
 		post "count" => 'recipes#count'#閲覧数
 	end
 	resources :categories, only: [:index,:show, :create, :update, :destroy, :edit]#料理のカテゴリー詳細ページの関連で使用

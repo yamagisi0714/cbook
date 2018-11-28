@@ -63,6 +63,9 @@
 					<% end %>
 					</tbody>
 				</table>
+				<div class="row" style= "text-align: center;">
+					<%= paginate @recipes, :param_name => 'favorite' %>
+				</div>
 				<% end %>
 			</div>
 			<!-- -------------------------------------------------------------------- -->

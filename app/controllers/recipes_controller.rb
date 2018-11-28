@@ -32,6 +32,7 @@ class RecipesController < ApplicationController
     @relations = Recipe.where(group_id: open_group, category_id: @recipe.category_id).sample(4)
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @steps = @recipe.steps.rank(:procedure_num)
+    @materials = @recipe.materials.rank(:material_num)
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @group = Group.find_by(id: @recipe.group_id)
     if @group.restrict == true && !UserGroup.find_by(entry: true,  group_id: @group.id, user_id: current_user.id)
@@ -74,6 +75,6 @@ class RecipesController < ApplicationController
 
   private
 	  def recipe_params
-	    params.require(:recipe).permit(:views, :title, :comment, :cook_image, :count, :category_id, :group_id, materials_attributes: [:id, :material_name, :quantity, :done, :_destroy], steps_attributes: [:id, :procedure_num, :procedure, :done, :step_image, :_destroy])
+	    params.require(:recipe).permit(:views, :title, :comment, :cook_image, :count, :category_id, :group_id, materials_attributes: [:id, :material_name, :material_num, :quantity, :done, :_destroy], steps_attributes: [:id, :procedure_num, :procedure, :done, :step_image, :_destroy])
     end
 end
