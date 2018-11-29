@@ -7,11 +7,10 @@
 			<!-- -------------------------------------------------------------------- -->
 			<div class="row">
 				<% if current_user.favorites.count == 0 %>
+				<h2>最新レシピ</h2>
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th></th>
-							<th>最新レシピ</th>
 							<th>
 								<%= form_tag recipes_path, :method => 'get' do %>
 							    <%= text_field_tag :title_search, params[:title_search] %>
@@ -22,7 +21,7 @@
 					</thead>
 					<tbody>
 					<% @allrecipes.each do |v| %>
-						<tr class="row">
+						<tr>
 							<td class="recipes">
 								<%= link_to recipe_count_path(v), method: :post do %>
 								<div class="col-xs-4">
@@ -38,6 +37,7 @@
 								</div>
 								<% end %>
 							</td>
+							<td></td>
 						</tr>
 					<% end %>
 					</tbody>
@@ -54,7 +54,7 @@
 					</thead>
 					<tbody>
 					<% @recipes.each do |v| %>
-						<tr class="row">
+						<tr>
 							<td class="recipes">
 								<%= link_to recipe_count_path(v), method: :post do %>
 								<div class="col-xs-4">
