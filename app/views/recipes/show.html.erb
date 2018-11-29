@@ -1,9 +1,9 @@
 <div class="container">
 	<div class="row">
 		<!-- ----------------------------------------------------------------------------- -->
+		<% if user_signed_in? %>
 		<div class="recipe col-xs-8">
 			<div class="info row">
-			<% if user_signed_in? %>
 				<div class="create col-xs-10">
 					最終更新日：<%= @recipe.updated_at.strftime('%Y年%m月%d日') %>
 					<% if @recipe.user_id == current_user.id %>
@@ -36,7 +36,6 @@
 					<% end %>
 				</div><br>
 			</div><br>
-			<% end %>
 			<div class="title">
 				<table class="table">
 					<thead>
@@ -56,7 +55,6 @@
 				<%= attachment_image_tag @recipe, :cook_image, fallback:"no_image.jpg" %>
 			</div>
 			<!-- ------------------------------------------------------------------------- -->
-		<% if user_signed_in? %>
 			<% if @recipe.user_id == current_user.id %>
 			<div class="material col-xs-6">
 				<table class="table table-bordered table-sortable2" data-remote="true">
@@ -112,15 +110,19 @@
 							<%= hidden_field_tag "authenticity_token", form_authenticity_token %>
 							<td>
 								<div class="col-xs-3">
-									<%= attachment_image_tag step, :step_image, fallback: "no_image.jpg", class: "setep_image" %>
+									<%= attachment_image_tag step, :step_image, class: "setep_image" %>
 								</div>
 								<div class="col-xs-1"></div>
 								<div class="col-xs-8">
-									<p class="procedure"><%= step.procedure %></p>
+									<p class="procedure" style="padding: 50px 0"><%= step.procedure %></p>
 								</div>
 							</td>
 						</tr>
 						<% end %>
+						<tr>
+							<td>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -137,7 +139,7 @@
 						<tr>
 							<td>
 								<div class="col-xs-3">
-									<%= attachment_image_tag r, :step_image, fallback: "no_image.jpg", class: "setep_image" %>
+									<%= attachment_image_tag r, class: "setep_image" %>
 								</div>
 								<div class="col-xs-1"></div>
 								<div class="col-xs-8">
@@ -189,71 +191,82 @@
 					</tbody>
 				</table>
 			</div>
-		<% else %>
-			<div class="material col-xs-6">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>材料</th>
-						</tr>
-					</thead>
-					<tbody>
-						<% @materials.each do |r| %>
-						<tr>
-							<td>
-								<%= r.material_name %>・・・・・<%= r.quantity %>
-							</td>
-						</tr>
-						<% end %>
-					</tbody>
-				</table>
-			</div>
-			<div class="step row">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>手順</th>
-						</tr>
-					</thead>
-					<tbody>
-						<% @steps.each do |r| %>
-						<tr>
-							<td>
-								<div class="col-xs-3">
-									<%= attachment_image_tag r, :step_image, fallback: "no_image.jpg", class: "setep_image" %>
-								</div>
-								<div class="col-xs-1"></div>
-								<div class="col-xs-8">
-									<p class="procedure"><%= r.procedure %></p>
-								</div>
-							</td>
-						</tr>
-						<% end %>
-					</tbody>
-				</table>
-			</div>
-		<% end %>
 		</div>
+		<% else %>
+		<div class="recipe col-xs-8">
+			<div class="info row">
+				<div class="create col-xs-10">
+						最終更新日：<%= @recipe.updated_at.strftime('%Y年%m月%d日') %>
+				</div>
+				<div class="image col-xs-6">
+					<%= attachment_image_tag @recipe, :cook_image, fallback:"no_image.jpg" %>
+				</div>
+				<div class="material col-xs-6">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>材料</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @materials.each do |r| %>
+							<tr>
+								<td>
+									<%= r.material_name %>・・・・・<%= r.quantity %>
+								</td>
+							</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+				<div class="step row">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>手順</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @steps.each do |r| %>
+							<tr>
+								<td>
+									<div class="col-xs-3">
+										<%= attachment_image_tag r, :step_image, fallback: "no_image.jpg", class: "setep_image" %>
+									</div>
+									<div class="col-xs-1"></div>
+									<div class="col-xs-8">
+										<p class="procedure" style="padding: 50px 0"><%= r.procedure %></p>
+									</div>
+								</td>
+							</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<% end %>
 		<div class="none col-xs-1">
 		</div>
 		<!-- ----------------------------------------------------------------------------- -->
-		<div class="relations col-xs-3">
-			<% @relations.each do |r| %>
-			<ul class="thumbnail">
-				<li class="recipes">
-					<%= link_to recipe_count_path(r), method: :post do %>
-							<li>
-								<div class="relations_image">
-								<%= attachment_image_tag r, :cook_image, fallback: "no_image.jpg", class: "relations_image" %>
-								</div>
-							</li>
-							<li><%= truncate(r.title, length:8) %></li>
-							<li><%= truncate(r.group.group_name, length:8) %>・<span class="glyphicon glyphicon-eye-open"></span>閲覧数：<%= r.views %>回</li>
-							<li>更新日　<%= r.updated_at.strftime('%Y年%m月%d日') %></li>
-					<% end %>
-				</li>
-			</ul>
-			<% end %>
+			<div class="relations col-xs-3">
+				<% @relations.each do |r| %>
+				<ul class="thumbnail">
+					<li class="recipes">
+						<%= link_to recipe_count_path(r), method: :post do %>
+								<li>
+									<div class="relations_image">
+									<%= attachment_image_tag r, :cook_image, fallback: "no_image.jpg", class: "relations_image" %>
+									</div>
+								</li>
+								<li><%= truncate(r.title, length:8) %></li>
+								<li><%= truncate(r.group.group_name, length:8) %>・<span class="glyphicon glyphicon-eye-open"></span>閲覧数：<%= r.views %>回</li>
+								<li>更新日　<%= r.updated_at.strftime('%Y年%m月%d日') %></li>
+						<% end %>
+					</li>
+				</ul>
+				<% end %>
+			</div>
 		</div>
 	</div>
 </div>
