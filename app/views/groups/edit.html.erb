@@ -96,6 +96,10 @@
 					</tbody>
 				</table>
 			</div>
+			<br><br><br>
+			<div class="row" style= "text-align: center;">
+				<%= link_to '削除',group_path(@group), method: :delete, "data-confirm" => "グループを削除しますか？", class: "btn btn-danger glyphicon glyphicon-exclamation-sign"%>
+			</div>
 		</div>
 	</div>
 </div>

@@ -36,8 +36,10 @@ class GroupsController < ApplicationController
     @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @group = Group.find(params[:id])
+    @joingroups = @group.user_groups.where(entry: true).count
+    @favogroups = @group.favorites.count
     @popularity = @group.recipes.order(views: "DESC").limit(3)
-    @group_recipes = @group.recipes.order(created_at: "DESC").page(params[:week_peage]).per(18)
+    @group_recipes = @group.recipes.order(created_at: "DESC").page(params[:group]).per(18)
     if @group.restrict && !UserGroup.find_by(entry: true,  group_id: @group.id, user_id: current_user.id)
       redirect_to root_path
     end
@@ -60,7 +62,7 @@ class GroupsController < ApplicationController
   def destroy
     group = Group.find(params[:id])
     group.destroy
-    redirect_to root_path, notice: "削除しました"
+    redirect_to root_path, notice: "グループを削除しました"
   end
   # 招待
   def invite

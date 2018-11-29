@@ -15,4 +15,12 @@ class Recipe < ApplicationRecord
 	def kept_by?(user)
           keeps.where(user_id: user.id).exists?
     end
+
+    def self.search(search) #self.でクラスメソッドとしている
+	    if search # Controllerから渡されたパラメータが!= nilの場合は、titleカラムを部分一致検索
+	      	Recipe.where(['name LIKE ?', "%#{search}%"])
+	    else
+			Recipe.all
+		end
+  	end
 end

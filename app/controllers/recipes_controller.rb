@@ -1,4 +1,14 @@
 class RecipesController < ApplicationController
+  def index
+    #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
+    @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
+    #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+    #ViewのFormで取得したパラメータをモデルに渡す
+    open_group = Group.where(restrict: false).ids
+    @search = Recipe.search(params[:search])
+    @search_recipe = @search.where(group_id: open_group)
+    binding.pry
+  end
 
   def new
   	#ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
@@ -22,9 +32,6 @@ class RecipesController < ApplicationController
   end
 
   def show
-    #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
-    @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
-    #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
   	# 本人と公開グループに投稿したものは全てユーザーに表示させる
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @recipe = Recipe.find(params[:id])
