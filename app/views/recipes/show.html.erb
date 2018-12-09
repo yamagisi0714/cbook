@@ -2,10 +2,15 @@
 	<div class="row">
 		<!-- ----------------------------------------------------------------------------- -->
 		<% if user_signed_in? %>
-		<div class="recipe col-xs-8">
+		<div class="recipe">
 			<div class="info row">
 				<div class="create col-xs-10">
-					最終更新日：<%= @recipe.updated_at.strftime('%Y年%m月%d日') %>
+					<h3>
+						最終更新日：<%= @recipe.updated_at.strftime('%Y年%m月%d日') %>・
+						投稿元：<%= link_to group_path(@group) do %>
+						<%= @recipe.group.group_name%>
+						<% end %>
+					</h3>
 					<% if @recipe.user_id == current_user.id %>
 					<br>
 					<br>
@@ -16,7 +21,7 @@
 					<% end %>
 				</div>
 				<div class="count col-xs-2">
-					<%= @recipe.views %> 回閲覧
+					<h4><%= @recipe.views %> 回閲覧</h4>
 				</div><br>
 				<div class="none col-xs-10">
 				</div>
@@ -68,7 +73,7 @@
 						<tr class='item', data-model_name=<%= material.class.name.underscore %> data-update-url=<%= recipe_material_sort2_path(recipe_id: material.recipe.id, material_id: material.id) %> data-remote="true">
 							<%= hidden_field_tag "authenticity_token", form_authenticity_token %>
 							<td>
-								<%= material.material_name %>・・・・・<%= material.quantity %>
+								<h4><%= material.material_name %>・・・・・<%= material.quantity %></h4>
 							</td>
 						</tr>
 						<% end %>
@@ -87,7 +92,7 @@
 						<% @materials.each do |r| %>
 						<tr>
 							<td>
-								<%= r.material_name %>・・・・・<%= r.quantity %>
+								<h4><%= r.material_name %>・・・・・<%= r.quantity %></h4>
 							</td>
 						</tr>
 						<% end %>
@@ -114,7 +119,7 @@
 								</div>
 								<div class="col-xs-1"></div>
 								<div class="col-xs-8">
-									<p class="procedure" style="padding: 50px 0"><%= step.procedure %></p>
+									<h3 class="procedure" style="padding: 50px 0"><%= step.procedure %></h3>
 								</div>
 							</td>
 						</tr>
@@ -143,7 +148,7 @@
 								</div>
 								<div class="col-xs-1"></div>
 								<div class="col-xs-8">
-									<p class="procedure"><%= r.procedure %></p>
+									<h3 class="procedure"><%= r.procedure %></h3>
 								</div>
 							</td>
 						</tr>
@@ -152,48 +157,9 @@
 				</table>
 			</div>
 			<% end %>
-			<div class="recipe_group">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>投稿グループ</th>
-							<th></th>
-							<th></th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><%= link_to group_path(@recipe.group) do %>
-								<strong><%= @recipe.group.group_name%></strong>
-								<% end %>
-							</td>
-							<td>登録者数：<%= @recipe.group.favorites.count %>人</td>
-							<td></td>
-							<td>
-								<div class="favarite">
-									<% if @group.favorited_by?(current_user) %>
-									  <div>
-									    <%= link_to group_favorites_path(@group), method: :delete do %>
-									    グループ登録済み
-									    <% end %>
-									  </div>
-									<% else %>
-									  <div>
-									    <%= link_to group_path(@group) do %>
-									    グループへ
-									    <% end %>
-									  </div>
-									<% end %>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
 		</div>
 		<% else %>
-		<div class="recipe col-xs-8">
+		<div class="recipe">
 			<div class="info row">
 				<div class="create col-xs-10">
 						最終更新日：<%= @recipe.updated_at.strftime('%Y年%m月%d日') %>
@@ -212,7 +178,7 @@
 							<% @materials.each do |r| %>
 							<tr>
 								<td>
-									<%= r.material_name %>・・・・・<%= r.quantity %>
+									<h3><%= r.material_name %>・・・・・<%= r.quantity %></h3>
 								</td>
 							</tr>
 							<% end %>
@@ -246,11 +212,11 @@
 			</div>
 		</div>
 		<% end %>
-		<div class="none col-xs-1">
-		</div>
 		<!-- ----------------------------------------------------------------------------- -->
-			<div class="relations col-xs-3">
-				<% @relations.each do |r| %>
+		<div class="row">
+			<h2>関連レシピ</h2>
+			<% @relations.each do |r| %>
+			<div class="relations col-xs-4">
 				<ul class="thumbnail">
 					<li class="recipes">
 						<%= link_to recipe_count_path(r), method: :post do %>
@@ -265,8 +231,8 @@
 						<% end %>
 					</li>
 				</ul>
-				<% end %>
 			</div>
+			<% end %>
 		</div>
 	</div>
 </div>

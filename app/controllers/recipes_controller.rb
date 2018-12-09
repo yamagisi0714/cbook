@@ -1,13 +1,14 @@
 class RecipesController < ApplicationController
-  def index
+  def index #検索結果
     #ーーーーーーーーーーサイドバーに必要な変数ーーーーーーーーーーーーーーーーーー
     @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     #ViewのFormで取得したパラメータをモデルに渡す
     open_group = Group.where(restrict: false).ids
-    @search = Recipe.search(params[:search])
-    @search_recipe = @search.where(group_id: open_group)
-    binding.pry
+    @search_recipe = Recipe.search(params[:search])
+    @recipes = @search_recipe.where(group_id: open_group).page(params[:search_recipe]).per(18)
+    @search_group = Group.search(params[:search])
+    @groups = @search_group.where(id: open_group).page(params[:search_group]).per(6)
   end
 
   def new
@@ -27,8 +28,11 @@ class RecipesController < ApplicationController
   def create
   	@recipe = Recipe.new(recipe_params)
     @recipe.user_id = current_user.id
-  	@recipe.save
-  	redirect_to recipe_path(@recipe)
+  	if @recipe.save
+  	  redirect_to recipe_path(@recipe)
+    else
+      redirect_back(fallback_location: "recipes#new", notice: "タイトルが正しく入力されていません")
+    end
   end
 
   def show
@@ -36,7 +40,7 @@ class RecipesController < ApplicationController
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @recipe = Recipe.find(params[:id])
     open_group = Group.where(restrict: false).ids
-    @relations = Recipe.where(group_id: open_group, category_id: @recipe.category_id).sample(4)
+    @relations = Recipe.where(group_id: open_group, category_id: @recipe.category_id).sample(6)
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @steps = @recipe.steps.rank(:procedure_num)
     @materials = @recipe.materials.rank(:material_num)

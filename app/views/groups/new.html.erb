@@ -5,21 +5,9 @@
 		</div>
 		<div class="form col-xs-6">
 		<%= form_for(@new_group) do |g| %>
-			<div class="error">
-				<% if @new_group.errors.any? %>
-			      <div id="error_explanation">
-			       <h3><%= @new_group.errors.count %>件のエラーが発生しました。</h3>
-			        <ul>
-			         <% @new_group.errors.full_messages.each do |message| %>
-			          <li><%= message %></li>
-			         <% end %>
-			        </ul>
-			      </div>
-			     <% end %>
-			</div>
 			<div class="field">
 			  <%= g.label :グループの名前 %><br>
-			  <%= g.text_field :group_name, placeholder:"グループの名前"%>
+			  <%= g.text_field :group_name, :size=>"25x10", placeholder:"グループの名前（２０文字以内）"%>
 			</div><br>
 			<div class="field">
 			  <%= g.label :グループの画像 %><br>

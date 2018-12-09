@@ -24,10 +24,13 @@ class GroupsController < ApplicationController
       redirect_to root_path , notice: "作成できるグループは上限３つまで。"
     else
       @new_group = Group.new(group_params)
-      @new_group.save
-      @user_group = UserGroup.new(user_id: current_user.id, group_id: @new_group.id, entry: true, owner: true, creater: true)
-      @user_group.save
-      redirect_to group_path(@new_group)
+      if @new_group.save
+        @user_group = UserGroup.new(user_id: current_user.id, group_id: @new_group.id, entry: true, owner: true, creater: true)
+        @user_group.save
+        redirect_to group_path(@new_group)
+      else
+        redirect_back(fallback_location: "groups#new", notice: "グループ名が正しく入力されていません")
+      end
     end
   end
 

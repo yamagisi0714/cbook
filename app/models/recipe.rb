@@ -12,15 +12,18 @@ class Recipe < ApplicationRecord
 	accepts_nested_attributes_for :steps, reject_if: :all_blank, allow_destroy: true
 	accepts_nested_attributes_for :materials, reject_if: :all_blank, allow_destroy: true
 
+	validates :title, presence: true
+	validates :title,    length: { maximum: 20 }
+
 	def kept_by?(user)
           keeps.where(user_id: user.id).exists?
     end
 
     def self.search(search) #self.でクラスメソッドとしている
 	    if search # Controllerから渡されたパラメータが!= nilの場合は、titleカラムを部分一致検索
-	      	Recipe.where(['name LIKE ?', "%#{search}%"])
+	      	Recipe.where(['title LIKE ?', "%#{search}%"])
 	    else
-			Recipe.all
+	    	Recipe.all
 		end
   	end
 end
