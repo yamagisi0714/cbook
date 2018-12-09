@@ -5,8 +5,8 @@
 		</div>
 		<div class="history col-xs-8">
 			<div class="row">
-				<% if current_user.keeps.count == 0 %>
-				ストックされているレシピがありません。
+				<% if current_user.recipes.count == 0 %>
+				投稿されたレシピがありません。
 				<% else %>
 				<table class="table table-hover">
 					<thead>

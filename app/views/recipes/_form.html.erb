@@ -3,7 +3,7 @@
   <div class="field">
     <%= f.label :title, "タイトル" %>
     <br>
-    <%= f.text_field :title %>
+    <%= f.text_field :title, placeholder: "入力必須(２０文字以内)" %>
     <%= f.collection_select :category_id, Category.all, :id, :category_name %>
     <br>
     <br>

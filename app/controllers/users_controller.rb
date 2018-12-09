@@ -31,9 +31,9 @@ class UsersController < ApplicationController
     @user.update(user_params)
     redirect_to user_path(current_user.id)
   end
-  def destory
-    user.find(params[:id])
-    user.destory
+  def destroy
+    user = User.find(params[:id])
+    user.destroy
     redirect_to root_path, notice: "削除しました"
   end
   def history

@@ -17,8 +17,8 @@ class RootController < ApplicationController
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     now  = Time.new.tomorrow.at_beginning_of_day
     month = (now - 1.month)
-    week = (now - 7.day).at_end_of_day
-    @week_views = Recipe.where(group_id: open_group, created_at: week...now).order(views: "DESC").page(params[:week_peage]).per(PER)#.limit(12)
+    week = (now - 7.day)
+    @week_views = Recipe.where(group_id: open_group, created_at: week...now).order(views: "DESC").page(params[:week_peage]).per(PER)
   	@month_views = Recipe.where(group_id: open_group, created_at: month...now).order(views: "DESC").page(params[:month_page]).per(PER)
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @recommended = Recipe.where(group_id: open_group, created_at: month...now).sample(6)
