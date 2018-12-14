@@ -38,9 +38,9 @@
 			</table>
 			<% if @owner.count > 0 %>
 				<% @ownergroups.each do |m| %>
-					<td class="col-xs-4">
+					<td>
 						<%= link_to group_path(m) do %>
-						<div class="col-xs-4">
+						<div class="col-lg-4 col-sm-12">
 							<div class="thumbnail">
 								<ul>
 									<li><%= attachment_image_tag m, :group_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %></li>
@@ -64,9 +64,9 @@
 				</thead>
 			</table>
 				<% if @joingroups.count > 0 %>
-				<td class="col-xs-4">
+				<td>
 					<% @mygroups.each do |m| %>
-					<div class="col-xs-4">
+					<div class="col-lg-4 col-sm-6">
 						<ul class="thumbnail">
 							<%= link_to group_path(m) do %>
 								<li><%= attachment_image_tag m, :group_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %></li>

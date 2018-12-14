@@ -7,7 +7,6 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <!-- jQuery Ul touch punch -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js'></script>
 
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.css' />
@@ -19,7 +18,7 @@
   <body>
     <header class="navbar navbar-top">
       <div class="container">
-        <div class="row row-eq-height">
+        <div class="row">
           <nav class="nav navbar-nav navbar-left">
             <%= link_to root_path, class: "header_logo" do %>
              <%= image_tag("/images/logo.jpg", :size => "250x100", :alt => "logo") %>

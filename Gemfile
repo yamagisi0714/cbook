@@ -85,3 +85,5 @@ gem 'kaminari-bootstrap'
 #日本語化　kaminari devise
 gem 'devise-i18n'
 gem 'devise-i18n-views'
+
+

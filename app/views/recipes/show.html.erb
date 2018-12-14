@@ -1,24 +1,122 @@
 <div class="container">
 	<div class="row">
-		<!-- ----------------------------------------------------------------------------- -->
-		<% if user_signed_in? %>
-		<div class="recipe">
+		<!-- 投稿者----------------------------------------------------------------------------- -->
+		<% if user_signed_in? && @recipe.user_id == current_user.id %>
+		<div class="contributor">
 			<div class="info row">
 				<div class="create col-xs-10">
 					<h3>
-						最終更新日：<%= @recipe.updated_at.strftime('%Y年%m月%d日') %>・
-						投稿元：<%= link_to group_path(@group) do %>
+						作成日：<%= @recipe.created_at.strftime('%Y年%m月%d日') %><br>
+						〜投稿元〜<%= link_to group_path(@group) do %>
 						<%= @recipe.group.group_name%>
 						<% end %>
 					</h3>
 					<% if @recipe.user_id == current_user.id %>
-					<br>
-					<br>
 					<div class="recipe">
 						<%= link_to '編集', edit_recipe_path(@recipe), class: "btn btn-warning glyphicon glyphicon-pencil" %>
 						<%= link_to '削除',recipe_path(@recipe), method: :delete, "data-confirm" => "レシピを削除しますか？", class: "btn btn-danger glyphicon glyphicon-exclamation-sign"%>
 					</div>
 					<% end %>
+				</div>
+				<div class="count col-xs-2">
+					<h4><%= @recipe.views %> 回閲覧</h4>
+				</div>
+				<div class="none col-xs-10">
+				</div>
+				<div class="keep col-xs-2">
+					<% if @recipe.kept_by?(current_user) %>
+					  <div>
+					    <%= link_to recipe_keeps_path(@recipe), method: :delete, class: "glyphicon btn btn-default glyphicon glyphicon-folder-close" do %>
+					    ストック済み
+					    <% end %>
+					  </div>
+					<% else %>
+					  <div>
+					    <%= link_to recipe_keeps_path(@recipe), method: :post, class: "glyphicon btn btn-warning glyphicon glyphicon-folder-open"  do %>
+					    ストックに追加
+					    <% end %>
+					  </div>
+					<% end %>
+				</div><br>
+			</div><br>
+			<div class="title">
+				<table class="table">
+					<thead>
+						<tr>
+							<th><h1><strong><%= @recipe.title %></strong></h1></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><h2><%= @recipe.comment %></h2></td>
+						</tr>
+						<tr><td></td></tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="image col-xs-6">
+				<%= attachment_image_tag @recipe, :cook_image, fallback:"no_image.jpg" %>
+			</div>
+			<div class="material col-xs-6">
+				<table class="table table-bordered table-sortable2" data-remote="true">
+					<thead>
+						<tr>
+							<th>材料</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @materials.each do |material| %>
+						<tr class='item', data-model_name=<%= material.class.name.underscore %> data-update-url=<%= recipe_material_sort2_path(recipe_id: material.recipe.id, material_id: material.id) %> data-remote="true">
+							<%= hidden_field_tag "authenticity_token", form_authenticity_token %>
+							<td>
+								<h1><%= material.material_name %>(<%= material.quantity %>)</h1>
+							</td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+			<div class="step row">
+				<table class="table table-sortable" data-remote="true">
+					<thead>
+						<tr>
+							<th>手順</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @steps.each do |step| %>
+						<tr class='item', data-model_name=<%= step.class.name.underscore %> data-update-url=<%= recipe_step_sort_path(recipe_id: step.recipe.id, step_id: step.id) %> data-remote="true">
+							<%= hidden_field_tag "authenticity_token", form_authenticity_token %>
+							<td>
+								<div class="col-xs-3">
+									<%= attachment_image_tag step, :step_image, class: "setep_image" %>
+								</div>
+								<div class="col-xs-1"></div>
+								<div class="col-xs-8">
+									<h1 class="procedure" style="padding: 50px 0"><%= step.procedure %></h1>
+								</div>
+							</td>
+						</tr>
+						<% end %>
+						<tr>
+							<td>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<% elsif user_signed_in? %>
+		<!-- その他アカウント------------------------------------------------------------------------ -->
+		<div class="public_user">
+			<div class="info row">
+				<div class="create col-xs-10">
+					<h3>
+						作成日：<%= @recipe.created_at.strftime('%Y年%m月%d日') %><br>
+						〜投稿元〜<%= link_to group_path(@group) do %>
+						<%= @recipe.group.group_name%>
+						<% end %>
+					</h3>
 				</div>
 				<div class="count col-xs-2">
 					<h4><%= @recipe.views %> 回閲覧</h4>
@@ -45,42 +143,20 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th><h2><%= @recipe.title %></h2></th>
+							<th><h1><strong><%= @recipe.title %></strong></h1></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td><%= @recipe.comment %></td>
+							<td><h2><%= @recipe.comment %></h2></td>
 						</tr>
+						<tr><td></td></tr>
 					</tbody>
 				</table>
 			</div>
-			<!-- ------------------------------------------------------------------------- -->
 			<div class="image col-xs-6">
 				<%= attachment_image_tag @recipe, :cook_image, fallback:"no_image.jpg" %>
 			</div>
-			<!-- ------------------------------------------------------------------------- -->
-			<% if @recipe.user_id == current_user.id %>
-			<div class="material col-xs-6">
-				<table class="table table-bordered table-sortable2" data-remote="true">
-					<thead>
-						<tr>
-							<th>材料</th>
-						</tr>
-					</thead>
-					<tbody>
-						<% @materials.each do |material| %>
-						<tr class='item', data-model_name=<%= material.class.name.underscore %> data-update-url=<%= recipe_material_sort2_path(recipe_id: material.recipe.id, material_id: material.id) %> data-remote="true">
-							<%= hidden_field_tag "authenticity_token", form_authenticity_token %>
-							<td>
-								<h4><%= material.material_name %>・・・・・<%= material.quantity %></h4>
-							</td>
-						</tr>
-						<% end %>
-					</tbody>
-				</table>
-			</div>
-			<% else %>
 			<div class="material col-xs-6">
 				<table class="table">
 					<thead>
@@ -92,77 +168,60 @@
 						<% @materials.each do |r| %>
 						<tr>
 							<td>
-								<h4><%= r.material_name %>・・・・・<%= r.quantity %></h4>
+								<h1><%= r.material_name %>(<%= r.quantity %>)</h1>
 							</td>
 						</tr>
 						<% end %>
 					</tbody>
 				</table>
 			</div>
-			<% end %>
-			<!-- ------------------------------------------------------------------------ -->
-			<% if @recipe.user_id == current_user.id %>
 			<div class="step row">
-				<table class="table table-sortable" data-remote="true">
-					<thead>
-						<tr>
-							<th>手順</th>
-						</tr>
-					</thead>
-					<tbody>
-						<% @steps.each do |step| %>
-						<tr class='item', data-model_name=<%= step.class.name.underscore %> data-update-url=<%= recipe_step_sort_path(recipe_id: step.recipe.id, step_id: step.id) %> data-remote="true">
-							<%= hidden_field_tag "authenticity_token", form_authenticity_token %>
-							<td>
-								<div class="col-xs-3">
-									<%= attachment_image_tag step, :step_image, class: "setep_image" %>
-								</div>
-								<div class="col-xs-1"></div>
-								<div class="col-xs-8">
-									<h3 class="procedure" style="padding: 50px 0"><%= step.procedure %></h3>
-								</div>
-							</td>
-						</tr>
-						<% end %>
-						<tr>
-							<td>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>手順</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @steps.each do |r| %>
+							<tr>
+								<td>
+									<div class="col-xs-3">
+										<%= attachment_image_tag r, :step_image, class: "setep_image" %>
+									</div>
+									<div class="col-xs-1"></div>
+									<div class="col-xs-8">
+										<h1 class="procedure" style="padding: 50px 0"><%= r.procedure %></h1>
+									</div>
+								</td>
+							</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
 			</div>
-			<% else %>
-			<div class="step row">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>手順</th>
-						</tr>
-					</thead>
-					<tbody>
-						<% @steps.each do |r| %>
-						<tr>
-							<td>
-								<div class="col-xs-3">
-									<%= attachment_image_tag r, class: "setep_image" %>
-								</div>
-								<div class="col-xs-1"></div>
-								<div class="col-xs-8">
-									<h3 class="procedure"><%= r.procedure %></h3>
-								</div>
-							</td>
-						</tr>
-						<% end %>
-					</tbody>
-				</table>
-			</div>
-			<% end %>
 		</div>
 		<% else %>
-		<div class="recipe">
+		<!-- ゲスト------------------------------------------------------------------------ -->
+		<div class="gutst">
 			<div class="info row">
 				<div class="create col-xs-10">
-						最終更新日：<%= @recipe.updated_at.strftime('%Y年%m月%d日') %>
+					<h3>作成日：<%= @recipe.created_at.strftime('%Y年%m月%d日') %></h3>
+				</div>
+				<div class="title">
+					<table class="table">
+						<thead>
+							<tr>
+								<th><h1><strong><%= @recipe.title %></strong></h1></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><h2><%= @recipe.comment %></h2></td>
+							</tr>
+							<tr><td></td></tr>
+						</tbody>
+					</table>
 				</div>
 				<div class="image col-xs-6">
 					<%= attachment_image_tag @recipe, :cook_image, fallback:"no_image.jpg" %>
@@ -178,7 +237,7 @@
 							<% @materials.each do |r| %>
 							<tr>
 								<td>
-									<h3><%= r.material_name %>・・・・・<%= r.quantity %></h3>
+									<h1><%= r.material_name %>(<%= r.quantity %>)</h1>
 								</td>
 							</tr>
 							<% end %>
@@ -197,11 +256,11 @@
 							<tr>
 								<td>
 									<div class="col-xs-3">
-										<%= attachment_image_tag r, :step_image, fallback: "no_image.jpg", class: "setep_image" %>
+										<%= attachment_image_tag r, :step_image, class: "setep_image" %>
 									</div>
 									<div class="col-xs-1"></div>
 									<div class="col-xs-8">
-										<p class="procedure" style="padding: 50px 0"><%= r.procedure %></p>
+										<h1 class="procedure" style="padding: 50px 0"><%= r.procedure %></h1>
 									</div>
 								</td>
 							</tr>
@@ -227,7 +286,7 @@
 								</li>
 								<li><%= truncate(r.title, length:8) %></li>
 								<li><%= truncate(r.group.group_name, length:8) %>・<span class="glyphicon glyphicon-eye-open"></span>閲覧数：<%= r.views %>回</li>
-								<li>更新日　<%= r.updated_at.strftime('%Y年%m月%d日') %></li>
+								<li>作成日<%= r.created_at.strftime('%Y年%m月%d日') %></li>
 						<% end %>
 					</li>
 				</ul>

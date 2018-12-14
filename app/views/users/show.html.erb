@@ -32,7 +32,7 @@
 										<li><h4><strong><%= v.title %></strong></h4></li>
 										<br>
 										<li><%= v.group.group_name %>・<span class="glyphicon glyphicon-eye-open">閲覧数：</span><%= v.views %>回</li>
-										<li>最終更新日　<%= v.updated_at.strftime('%Y年%m月%d日') %></li>
+										<li>作成日<%= v.created_at.strftime('%Y年%m月%d日') %></li>
 									</ul>
 								</div>
 								<% end %>
@@ -65,7 +65,7 @@
 										<li><h3><strong><%= v.title %></strong></h3></li>
 										<br>
 										<li><%= v.group.group_name %>・<span class="glyphicon glyphicon-eye-open">閲覧数：</span><%= v.views %>回</li>
-										<li>最終更新日　<%= v.updated_at.strftime('%Y年%m月%d日') %></li>
+										<li>作成日<%= v.created_at.strftime('%Y年%m月%d日') %></li>
 									</ul>
 								</div>
 								<% end %>
