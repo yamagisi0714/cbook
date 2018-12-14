@@ -17,7 +17,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<% @user.recipes.each do |h| %>
+						<% @recipes.each do |h| %>
 						<tr class="row">
 							<td class="recipes">
 								<%= link_to recipe_path(h) do %>
@@ -29,7 +29,7 @@
 										<li><h4><strong><%= h.title %></strong></h4></li>
 										<br>
 										<li><%= h.group.group_name %>・<span class="glyphicon glyphicon-eye-open">閲覧数：</span><%= h.views %>回</li>
-										<li>最終更新日　<%= h.updated_at.strftime('%Y年%m月%d日') %></li>
+										<li>作成日<%= h.created_at.strftime('%Y年%m月%d日') %></li>
 									</ul>
 								</div>
 								<% end %>
@@ -39,6 +39,9 @@
 					</tbody>
 				</table>
 				<% end %>
+			</div>
+			<div class="row" style= "text-align: center;">
+				<%= paginate @recipes, :param_name => 'history' %>
 			</div>
 		</div>
 	</div>

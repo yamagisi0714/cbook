@@ -5,87 +5,153 @@
 		</div>
 		<div class="contents col-xs-8">
 			<div class="header row">
-				<h4>参加人数<%= @joingroups %>人 登録者数<%= @favogroups %>人</h4>
+				<table>
+					<thead>
+						<tr><th><h4>参加人数<%= @joingroups %>人/登録者数<%= @favogroups %>人</h4></th></tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<div class="favarite col-xs-6">
+									<% if @group.favorited_by?(current_user) %>
+									  <div>
+									    <%= link_to group_favorites_path(@group), method: :delete, class: "glyphicon btn btn-default" do %>
+									    グループ登録済み <%= @group.favorites.count %>
+									    <% end %>
+									  </div>
+									<% else %>
+									  <div>
+									    <%= link_to group_favorites_path(@group), method: :post, class: "glyphicon btn btn-danger"  do %>
+									    グループ登録 <%= @group.favorites.count %>
+									 	<% end %>
+									  </div>
+									<% end %>
+								</div>
+								<div class="group_join col-xs-6">
+									<% if @group.lock == false && !UserGroup.find_by(entry: true,  group_id: @group.id, user_id: current_user.id)%>
+									<%= link_to 'グループに参加', group_joins_path(@group), method: :post, class: 'glyphicon btn btn-success' %>
+									<% end %>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table><br>
 				<div class="group_img col-xs-2">
 					<%= attachment_image_tag @group, :group_image, fallback: "no_image.jpg" %>
 				</div>
-				<div class="group_name col-xs-7">
+				<div class="group_name col-xs-10">
 					<h1><%= @group.group_name %></h1>
-				</div>
-				<div class="btn col-xs-3">
-					<div class="favarite">
-						<% if @group.favorited_by?(current_user) %>
-						  <div>
-						    <%= link_to group_favorites_path(@group), method: :delete, class: "glyphicon btn btn-default" do %>
-						    グループ登録済み <%= @group.favorites.count %>
-						    <% end %>
-						  </div>
-						<% else %>
-						  <div>
-						    <%= link_to group_favorites_path(@group), method: :post, class: "glyphicon btn btn-danger"  do %>
-						    グループ登録 <%= @group.favorites.count %>
-						    <% end %>
-						  </div>
-						<% end %>
-					</div><br>
-					<div class="group_join">
-						<% if @group.lock == false && !UserGroup.find_by(entry: true,  group_id: @group.id, user_id: current_user.id)%>
-						<%= link_to 'グループに参加', group_joins_path(@group), method: :post, class: 'btn btn-success btn-block' %>
-						<% end %>
-					</div>
 				</div>
 			</div><br>
 			<div class="row">
 				<% if UserGroup.find_by(group_id: @group.id, user_id: current_user.id, entry: true, owner: true) %>
 				<%= link_to"", edit_group_path(@group), class: 'col-xs-12 btn btn-default glyphicon glyphicon-wrench'%>
 				<% end %>
-			</div>
-			<div class="row">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>人気レシピ</th>
-						</tr>
-					</thead>
-				</table>
-				<% @popularity.each do |v| %>
-					<td class="recipes col-xs-4">
-						<%= link_to recipe_count_path(v), method: :post do %>
-						<div class=" col-xs-4">
-							<ul class="thumbnail">
-								<li><%= attachment_image_tag v, :cook_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %></li>
-								<li><%= v.title %></li>
-								<li><%= v.group.group_name %></li>
-								<li><span class="glyphicon glyphicon-eye-open"></span>閲覧数：<%= v.views %>回</li>
-								<li>更新日　<%= v.updated_at.strftime('%Y年%m月%d日') %></li>
+			</div><br>
+			<h1>人気レシピ</h1>
+			<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+				<div class="carousel-inner" role="listbox">
+					<div class="item active">
+						<%= link_to recipe_count_path(@popularity[0]), method: :post do %>
+						<div>
+							<ul>
+								<li><h1><strong><%= @popularity[0].title %></strong></h1></li>
+								<li class="slide"><%= attachment_image_tag @popularity[0], :cook_image, fallback: "no_image.jpg", class: "slide" %></li>
 							</ul>
 						</div>
 						<% end %>
-					</td>
-				<% end %>
-			</div>
+					</div>
+					<div class="item">
+						<%= link_to recipe_count_path(@popularity[1]), method: :post do %>
+						<div>
+							<ul>
+								<li><h1><strong><%= @popularity[1].title %></strong></h1></li>
+								<li class="slide"><%= attachment_image_tag @popularity[1], :cook_image, fallback: "no_image.jpg", class: "slide" %></li>
+							</ul>
+						</div>
+						<% end %>
+					</div>
+					<div class="item">
+						<%= link_to recipe_count_path(@popularity[2]), method: :post do %>
+						<div>
+							<ul>
+								<li><h1><strong><%= @popularity[2].title %></strong></h1></li>
+								<li class="slide"><%= attachment_image_tag @popularity[2], :cook_image, fallback: "no_image.jpg", class: "slide" %></li>
+							</ul>
+						</div>
+						<% end %>
+					</div>
+					<div class="item">
+						<%= link_to recipe_count_path(@popularity[3]), method: :post do %>
+						<div>
+							<ul>
+								<li><h1><strong><%= @popularity[3].title %></strong></h1></li>
+								<li class="slide"><%= attachment_image_tag @popularity[3], :cook_image, fallback: "no_image.jpg", class: "slide" %></li>
+							</ul>
+						</div>
+						<% end %>
+					</div>
+					<div class="item">
+						<%= link_to recipe_count_path(@popularity[4]), method: :post do %>
+						<div>
+							<ul>
+								<li><h1><strong><%= @popularity[4].title %></strong></h1></li>
+								<li class="slide"><%= attachment_image_tag @popularity[4], :cook_image, fallback: "no_image.jpg", class: "slide" %></li>
+							</ul>
+						</div>
+						<% end %>
+					</div>
+					<div class="item">
+						<%= link_to recipe_count_path(@popularity[5]), method: :post do %>
+						<div>
+							<ul>
+								<li><h1><strong><%= @popularity[5].title %></strong></h1></li>
+								<li class="slide"><%= attachment_image_tag @popularity[5], :cook_image, fallback: "no_image.jpg", class: "slide" %></li>
+							</ul>
+						</div>
+						<% end %>
+					</div>
+				</div>
+				<a class="left carousel-control" href="#carouselExampleControls" role="button" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					<span class="sr-only">前へ</span>
+				</a>
+				<a class="right carousel-control" href="#carouselExampleControls" role="button" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					<span class="sr-only">次へ</span>
+				</a>
+			</div><br>
 			<div class="row">
-				<table class="table">
+				<table class="table table-hover">
 					<thead>
 						<tr>
+							<th></th>
 							<th>グループレシピ</th>
+							<th></th>
 						</tr>
 					</thead>
-				</table>
-				<% @group_recipes.each do |v| %>
-					<td class="recipes col-xs-4">
-						<%= link_to recipe_count_path(v), method: :post do %>
-						<div class=" col-xs-4">
-							<ul class="thumbnail">
-								<li><%= attachment_image_tag v, :cook_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %></li>
-								<li><%= v.title %></li>
-								<li><%= v.group.group_name %>・<span class="glyphicon glyphicon-eye-open"></span>閲覧数：<%= v.views %>回</li>
-								<li>更新日　<%= v.updated_at.strftime('%Y年%m月%d日') %></li>
-							</ul>
-						</div>
+					<tbody>
+						<% @group_recipes.each do |h| %>
+						<tr class="row">
+							<td class="recipes">
+								<%= link_to recipe_path(h) do %>
+								<div class="col-xs-4">
+									<%= attachment_image_tag h, :cook_image, fallback: "no_image.jpg", class: "index_recipe_iamges" %>
+								</div>
+								<div class="info col-xs-8">
+									<ul>
+										<li><h4><strong><%= h.title %></strong></h4></li>
+										<br>
+										<li><%= h.group.group_name %>・<span class="glyphicon glyphicon-eye-open">閲覧数：</span><%= h.views %>回</li>
+										<li>作成日<%= h.created_at.strftime('%Y年%m月%d日') %></li>
+									</ul>
+								</div>
+								<% end %>
+							</td>
+						</tr>
 						<% end %>
-					</td>
-				<% end %>
+					</tbody>
+				</table>
 			</div>
 			<div class="row" style= "text-align: center;">
 				<%= paginate @group_recipes, :param_name => 'group' %>

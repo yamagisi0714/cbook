@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
   	@user = User.find(params[:id])
     fovorite = current_user.favorites.pluck(:group_id)
-    @recipes = Recipe.where(group_id: fovorite).order(created_at: "DESC").page(params[:favorite]).per(10)
+    @recipes = Recipe.where(group_id: fovorite).order(created_at: "DESC").page(params[:favorite]).per(20)
     @allrecipes = Recipe.order(created_at: "DESC").limit(20)
   end
 
@@ -41,6 +41,7 @@ class UsersController < ApplicationController
     @favorite_group = Favorite.where(user_id: current_user.id)#お気に入り登録しているグループの情報
     #ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
     @user = User.find(current_user.id)
+    @recipes = @user.recipes.page(params[:history]).per(20)
     correct_user = User.find(params[:user_id])
     unless correct_user == current_user
       redirect_to root_path
@@ -56,8 +57,9 @@ class UsersController < ApplicationController
       redirect_to root_path
     end
     stock = current_user.keeps.pluck(:recipe_id)
-    @recipe = Recipe.where(id: stock)
-    @stock_recipe = @recipe.find(Keep.group(:recipe_id).order('created_at desc').pluck(:recipe_id))
+    @stock_recipe = Recipe.where(id: stock)
+    #@stock_recipe = Recipe.find(Keep.group(:recipe_id).order('created_at desc').pluck(:recipe_id))
+    # .page(params[:stock]).per(20) ストックをkaminariを適用させたいがorderの後ろに記述すればコントローラーは問題ないがHTMLで表示の記述がわからない
   end
 
   private

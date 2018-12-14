@@ -6,7 +6,7 @@ class Group < ApplicationRecord
 	attachment :group_image
 
 	validates :group_name, presence: true
-	validates :group_name,    length: { maximum: 20 }
+	validates :group_name,    length: { maximum: 15 }
 	validates :group_name, uniqueness: true
 
     def favorited_by?(user)
