@@ -46,12 +46,14 @@
 							<th><h1><strong><%= @recipe.title %></strong></h1></th>
 						</tr>
 					</thead>
+					<% unless @recipe.comment == "" %>
 					<tbody>
 						<tr>
 							<td><h2><%= @recipe.comment %></h2></td>
 						</tr>
 						<tr><td></td></tr>
 					</tbody>
+					<% end %>
 				</table>
 			</div>
 			<div class="image col-xs-6">
@@ -146,12 +148,14 @@
 							<th><h1><strong><%= @recipe.title %></strong></h1></th>
 						</tr>
 					</thead>
+					<% unless @recipe.comment == "" %>
 					<tbody>
 						<tr>
 							<td><h2><%= @recipe.comment %></h2></td>
 						</tr>
 						<tr><td></td></tr>
 					</tbody>
+					<% end %>
 				</table>
 			</div>
 			<div class="image col-xs-6">
@@ -215,12 +219,14 @@
 								<th><h1><strong><%= @recipe.title %></strong></h1></th>
 							</tr>
 						</thead>
+						<% unless @recipe.comment == "" %>
 						<tbody>
 							<tr>
 								<td><h2><%= @recipe.comment %></h2></td>
 							</tr>
 							<tr><td></td></tr>
 						</tbody>
+						<% end %>
 					</table>
 				</div>
 				<div class="image col-xs-6">
@@ -284,9 +290,12 @@
 									<%= attachment_image_tag r, :cook_image, fallback: "no_image.jpg", class: "relations_image" %>
 									</div>
 								</li>
-								<li><%= truncate(r.title, length:8) %></li>
-								<li><%= truncate(r.group.group_name, length:8) %>・<span class="glyphicon glyphicon-eye-open"></span>閲覧数：<%= r.views %>回</li>
-								<li>作成日<%= r.created_at.strftime('%Y年%m月%d日') %></li>
+								<li><%= truncate(r.title, length:10) %></li>
+								<li><%= truncate(r.group.group_name, length:10) %></li>
+								<li><span class="glyphicon glyphicon-eye-open"></span>閲覧数</li>
+								<li><%= r.views %>回</li>
+								<li>作成日</li>
+								<li><%= r.created_at.strftime('%Y年%m月%d日') %></li>
 						<% end %>
 					</li>
 				</ul>

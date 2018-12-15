@@ -32,35 +32,35 @@
                   <%= image_tag("/images/header_icon.png", :size => "50x50", :alt => "header_icon") %>
                   <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><%= current_user.name %>さん</li>
+                  <li><strong><h2><%= current_user.name %>さん</strong></h2></li>
                   <li role="presentation">
                     <%=link_to user_path(current_user) do %>
-                    <p>登録グループ</p>
+                    <h2>登録グループ</h2>
                     <% end %>
                   </li>
                   <li role="presentation">
                     <%=link_to user_mygroups_path(current_user.id) do %>
-                    <p>Myグループ(<%= UserGroup.where(user_id: current_user.id, entry: false).count %>)</p>
+                    <h2>Myグループ(<%= UserGroup.where(user_id: current_user.id, entry: false).count %>)</h2>
                     <% end %>
                   </li>
                   <li role="presentation">
                     <%=link_to user_stock_path(current_user.id) do %>
-                    <p>ストック</p>
+                    <h2>ストック</h2>
                     <% end %>
                   </li>
                   <li role="presentation">
                     <%=link_to user_history_path(current_user.id) do %>
-                    <p>投稿履歴</p>
+                    <h2>投稿履歴</h2>
                     <% end %>
                   </li>
                   <li role="presentation">
                     <%= link_to edit_user_path(current_user) do %>
-                    <p>設定</p>
+                    <h2>設定</h2>
                     <% end %>
                   </li>
                   <li role="presentation">
                     <%=link_to destroy_user_session_path, method: :delete do %>
-                    <p>ログアウト</p>
+                    <h2>ログアウト</h2>
                     <% end %>
                   </li>
                 </ul>
